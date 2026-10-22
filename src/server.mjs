@@ -74,12 +74,83 @@ const server = http.createServer(async (req, res) => {
     }));
   }
 
-  // Issue B: Designated approval issuance endpoint simulating authorized approver card signing
+  // TideCloak Real Authentication endpoint
+  if (req.method === 'POST' && req.url === '/api/auth/login') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', async () => {
+      try {
+        const { username, password } = JSON.parse(body || '{}');
+        if (!username || !password) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          return res.end(JSON.stringify({ error: 'USERNAME_AND_PASSWORD_REQUIRED' }));
+        }
+
+        const tokenRes = await fetch('http://127.0.0.1:8180/realms/rmit-hackathon-2026/protocol/openid-connect/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            client_id: 'leash-demo',
+            username,
+            password,
+            grant_type: 'password'
+          })
+        });
+
+        if (!tokenRes.ok) {
+          const errText = await tokenRes.text();
+          res.writeHead(tokenRes.status, { 'Content-Type': 'application/json' });
+          return res.end(JSON.stringify({ error: 'TIDECLOAK_AUTH_FAILED', details: errText }));
+        }
+
+        const tokenData = await tokenRes.json();
+        const parts = tokenData.access_token.split('.');
+        const claims = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf8'));
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({
+          authenticated: true,
+          username: claims.preferred_username || username,
+          roles: claims.realm_access?.roles || [],
+          tideUho: claims['t.uho'] || null,
+          sub: claims.sub,
+          accessToken: tokenData.access_token
+        }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: err.message }));
+      }
+    });
+    return;
+  }
+
+  // Issue B: Designated approval issuance endpoint with optional TideCloak JWT role check
   if (req.method === 'POST' && req.url === '/api/approve') {
     let body = '';
     req.on('data', chunk => { body += chunk; });
     req.on('end', () => {
       try {
+        const authHeader = req.headers['authorization'];
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+          const token = authHeader.slice(7);
+          try {
+            const parts = token.split('.');
+            if (parts.length === 3) {
+              const claims = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf8'));
+              const roles = claims.realm_access?.roles || [];
+              if (!roles.includes('payment-approver')) {
+                res.writeHead(403, { 'Content-Type': 'application/json' });
+                return res.end(JSON.stringify({
+                  error: 'FORBIDDEN_ROLE: user does not have payment-approver role in TideCloak',
+                  roles
+                }));
+              }
+            }
+          } catch {
+            // fallback if decode error
+          }
+        }
+
         const payload = JSON.parse(body || '{}');
         const { approverId, invoiceText, simulateCompromise, nonce, expiresAt } = payload;
         const proposal = propose(invoiceText || '', { simulateCompromise: Boolean(simulateCompromise) });

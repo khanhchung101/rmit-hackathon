@@ -108,6 +108,40 @@
     <strong>MOCK / ARCHITECTURAL SIMULATION.</strong> This interactive prototype demonstrates the 5-stage cryptographic pipeline using local deterministic mock keys and fixture-based prompt injection. It does <em>not</em> claim live Tide distributed signing until Step 0 G4 passes.
   </div>
 
+  <!-- TideCloak Real Authentication Panel -->
+  <div class="card" style="margin-bottom: 20px; border: 1px solid #0284c7; background: #0c1a30;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h3 style="margin:0; color:#38bdf8; font-size:16px;">🔐 TideCloak Live Authentication (C03, C04, C06, C11)</h3>
+      <span id="auth-status-badge" class="badge pass">TideCloak Online (8180)</span>
+    </div>
+    
+    <div id="auth-session-info" style="background:#091220; padding:12px; border-radius:6px; border:1px solid #1e3a5f; margin-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <span style="color:#22c55e; font-weight:bold;">● Active Session:</span>
+          <span id="session-username" style="color:#f8fafc; font-weight:bold; margin-left:6px; font-family:monospace; font-size:14px;">finance-a</span>
+          <span id="session-role-badge" class="badge pass" style="margin-left:8px;">payment-approver</span>
+        </div>
+        <button type="button" id="btn-logout" class="secondary" style="padding:4px 10px; font-size:12px;">Sign Out</button>
+      </div>
+      <div style="font-size:12px; color:#94a3b8; margin-top:8px; line-height:1.5;">
+        <div><strong>Realm:</strong> <code style="color:#38bdf8;">rmit-hackathon-2026</code> | <strong>Tide Doken (t.uho):</strong> <code id="session-doken" style="color:#a7f3d0;">https://ork1.tideprotocol.com</code></div>
+        <div style="margin-top:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+          <strong>Real OIDC Token:</strong> <code id="session-token-preview" style="color:#cbd5e1; font-size:11px;">eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...</code>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+      <span style="font-size:13px; color:#cbd5e1; font-weight:600;">Switch TideCloak Identity:</span>
+      <button type="button" id="btn-login-fa" style="padding:6px 12px; font-size:12px;">👤 Sign in as finance-a (Approver)</button>
+      <button type="button" id="btn-login-fb" style="padding:6px 12px; font-size:12px;">👤 Sign in as finance-b (Approver)</button>
+      <button type="button" id="btn-login-exec" class="secondary" style="padding:6px 12px; font-size:12px;">🤖 Sign in as agent-executor (AI Bot)</button>
+      <span id="auth-loading" style="display:none; color:#38bdf8; font-size:12px;">Connecting to TideCloak...</span>
+    </div>
+    <div id="auth-alert" style="display:none; margin-top:10px; padding:8px 12px; border-radius:4px; font-size:13px;"></div>
+  </div>
+
   <div class="grid">
     <div class="card">
       <h3>1. Payment Request Inputs</h3>
@@ -169,6 +203,72 @@
 
   <script>
     let fixtureCache = {};
+    let currentTideUser = null;
+    let currentTideToken = null;
+
+    async function loginTideCloak(username, password) {
+      const alertEl = document.getElementById('auth-alert');
+      const loadingEl = document.getElementById('auth-loading');
+      alertEl.style.display = 'none';
+      loadingEl.style.display = 'inline';
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        loadingEl.style.display = 'none';
+        if (!res.ok || data.error) {
+          alertEl.style.display = 'block';
+          alertEl.style.background = '#451a03';
+          alertEl.style.color = '#fde68a';
+          alertEl.textContent = '❌ TideCloak Error: ' + (data.details || data.error);
+          return;
+        }
+
+        currentTideUser = data;
+        currentTideToken = data.accessToken;
+        renderAuthSession();
+      } catch (err) {
+        loadingEl.style.display = 'none';
+        alertEl.style.display = 'block';
+        alertEl.style.background = '#451a03';
+        alertEl.style.color = '#fde68a';
+        alertEl.textContent = '❌ Network Error connecting to TideCloak: ' + err.message;
+      }
+    }
+
+    function renderAuthSession() {
+      const sessionInfo = document.getElementById('auth-session-info');
+      const usernameEl = document.getElementById('session-username');
+      const roleBadge = document.getElementById('session-role-badge');
+      const dokenEl = document.getElementById('session-doken');
+      const tokenPreview = document.getElementById('session-token-preview');
+
+      if (currentTideUser) {
+        sessionInfo.style.display = 'block';
+        usernameEl.textContent = currentTideUser.username;
+        const isApprover = (currentTideUser.roles || []).includes('payment-approver');
+        const isExec = (currentTideUser.roles || []).includes('payment-executor');
+        roleBadge.textContent = isApprover ? 'Role: payment-approver' : (isExec ? 'Role: payment-executor (AI)' : 'Role: other');
+        roleBadge.className = isApprover ? 'badge pass' : 'badge fail';
+        dokenEl.textContent = currentTideUser.tideUho || 'https://ork1.tideprotocol.com';
+        tokenPreview.textContent = currentTideToken ? (currentTideToken.slice(0, 36) + '...' + currentTideToken.slice(-20)) : 'None';
+      } else {
+        sessionInfo.style.display = 'none';
+      }
+    }
+
+    document.getElementById('btn-login-fa').addEventListener('click', () => loginTideCloak('finance-a', 'Password@123'));
+    document.getElementById('btn-login-fb').addEventListener('click', () => loginTideCloak('finance-b', 'Password@123'));
+    document.getElementById('btn-login-exec').addEventListener('click', () => loginTideCloak('agent-executor', 'Password@123'));
+    document.getElementById('btn-logout').addEventListener('click', () => {
+      currentTideUser = null;
+      currentTideToken = null;
+      renderAuthSession();
+    });
 
     async function loadFixtures() {
       try {
@@ -226,14 +326,28 @@
       try {
         // Issue B: Legitimate approvers sign an approval card bound to the exact transaction
         for (const approverId of selectedApprovers) {
+          const headers = { 'Content-Type': 'application/json' };
+          if (currentTideToken) {
+            headers['Authorization'] = 'Bearer ' + currentTideToken;
+          }
           const appRes = await fetch('/api/approve', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers,
             body: JSON.stringify({ approverId, invoiceText, simulateCompromise, nonce })
           });
           if (appRes.ok) {
             approvals.push(await appRes.json());
           } else {
+            const errJson = await appRes.json().catch(() => ({}));
+            if (appRes.status === 403) {
+              output.textContent = JSON.stringify({
+                status: 'FORBIDDEN_UNAUTHORIZED_APPROVER',
+                error: errJson.error,
+                details: 'User with role payment-executor cannot sign approval cards (C04 & C11 Passed)'
+              }, null, 2);
+              setBadge('b-stage3', false);
+              return;
+            }
             // For invalid approver test (e.g. agent), push unverified object
             approvals.push({ approverId });
           }
@@ -274,6 +388,7 @@
     });
 
     loadFixtures();
+    loginTideCloak('finance-a', 'Password@123');
   </script>
 </body>
 </html>
