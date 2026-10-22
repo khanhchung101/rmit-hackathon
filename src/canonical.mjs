@@ -40,8 +40,7 @@ export function validatePayment(p, options = {}) {
     throw Error('INVALID_PAYLOAD:expiry-format');
   const expiryTime = Date.parse(p.expiresAt);
   const atTime = at.getTime();
-  if (expiryTime <= atTime - (CLOCK_SKEW_TOLERANCE_SECONDS * 1000)) throw Error('EXPIRED');
-  if (expiryTime <= atTime) throw Error('INVALID_PAYLOAD:expiry-before-issued');
+  if (expiryTime <= atTime) throw Error('EXPIRED');
   if (maxExpirySeconds !== null) {
     const deltaSeconds = (expiryTime - atTime) / 1000;
     if (deltaSeconds > (maxExpirySeconds + CLOCK_SKEW_TOLERANCE_SECONDS)) {
@@ -63,6 +62,12 @@ export function makePayment(proposal, {
   maxExpirySeconds = MAX_EXPIRY_SECONDS
 } = {}) {
   const issuedDate = issuedAt instanceof Date ? issuedAt : new Date(issuedAt);
+  if (expiresAt) {
+    const expTime = Date.parse(expiresAt);
+    if (expTime <= issuedDate.getTime()) {
+      throw Error('INVALID_PAYLOAD:expiry-before-issued');
+    }
+  }
   const calculatedExpiry = expiresAt || new Date(issuedDate.getTime() + (validitySeconds * 1000)).toISOString();
   const p = {
     amountMinor: proposal.amountMinor,

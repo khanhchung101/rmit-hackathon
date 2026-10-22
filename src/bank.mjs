@@ -41,13 +41,19 @@ function withLock(lockPath, fn) {
 }
 
 export class MockBank {
-  constructor({pinnedPublicKey, pinnedKeyId, pinnedPolicyId, durablePath, preventDuplicateInvoices=false}={}){
-    const trustedKey = pinnedPublicKey || getBankPinnedPublicKey();
-    this.pinnedPublicKey = trustedKey?.type === 'public' ? trustedKey : createPublicKey(trustedKey);
+  constructor({pinnedPublicKey, pinnedKeyId, pinnedPolicyId, durablePath, preventDuplicateInvoices=false, expectedMode='MOCK_ONLY'}={}){
+    let trustedKey = pinnedPublicKey;
+    if (!trustedKey) {
+      try {
+        trustedKey = getBankPinnedPublicKey();
+      } catch (_) {}
+    }
+    this.pinnedPublicKey = trustedKey?.type === 'public' ? trustedKey : (trustedKey ? createPublicKey(trustedKey) : null);
     this.pinnedKeyId = pinnedKeyId || null;
     this.pinnedPolicyId = pinnedPolicyId || null;
     this.durablePath = durablePath || null;
     this.preventDuplicateInvoices = Boolean(preventDuplicateInvoices);
+    this.expectedMode = expectedMode || 'MOCK_ONLY';
     this.consumed = new Set();
     this.settledInvoices = new Set();
 
@@ -66,9 +72,14 @@ export class MockBank {
       if(!trimmed)continue;
       try{
         const entry=JSON.parse(trimmed);
-        if(entry?.nonce)this.consumed.add(entry.nonce);
+        if(!entry || typeof entry!=='object' || !entry.nonce){
+          throw new Error('MALFORMED_ENTRY');
+        }
+        this.consumed.add(entry.nonce);
         if(entry?.invoiceId)this.settledInvoices.add(entry.invoiceId);
-      }catch{}
+      }catch(err){
+        throw new Error(`CORRUPT_DURABLE_LEDGER: ${err.message}`);
+      }
     }
   }
 
@@ -91,13 +102,29 @@ export class MockBank {
   execute(paymentOrEnvelope, signatureBase64){
     let payment=paymentOrEnvelope;
     let sig=signatureBase64;
+    const isEnvelope = paymentOrEnvelope && typeof paymentOrEnvelope==='object' && 'payment' in paymentOrEnvelope && 'authorization' in paymentOrEnvelope;
 
-    if(paymentOrEnvelope && typeof paymentOrEnvelope==='object' && 'payment' in paymentOrEnvelope && 'authorization' in paymentOrEnvelope){
+    if(isEnvelope){
+      const topKeys = Object.keys(paymentOrEnvelope).sort();
+      if (topKeys.length !== 2 || topKeys[0] !== 'authorization' || topKeys[1] !== 'payment') {
+        return {accepted:false,code:'INVALID_ENVELOPE_SCHEMA'};
+      }
+
       payment=paymentOrEnvelope.payment;
       const auth=paymentOrEnvelope.authorization;
-      if(!auth || typeof auth!=='object')return {accepted:false,code:'INVALID_ENVELOPE'};
+      if(!auth || typeof auth!=='object' || Array.isArray(auth))return {accepted:false,code:'INVALID_ENVELOPE'};
+
+      const authKeys = Object.keys(auth).sort();
+      const expectedAuthKeys = ['keyId','mode','policyId','signatureBase64'];
+      if(authKeys.length !== expectedAuthKeys.length || authKeys.some((k,i)=>k!==expectedAuthKeys[i])){
+        return {accepted:false,code:'INVALID_ENVELOPE_SCHEMA'};
+      }
+
       if(auth.mode!=='MOCK_ONLY' && auth.mode!=='REAL_TIDE'){
         return {accepted:false,code:'INVALID_ENVELOPE_MODE'};
+      }
+      if(this.expectedMode && auth.mode !== this.expectedMode){
+        return {accepted:false,code:'UNTRUSTED_MODE'};
       }
       if(this.pinnedKeyId && auth.keyId!==this.pinnedKeyId){
         return {accepted:false,code:'UNTRUSTED_KEY_ID'};
@@ -106,9 +133,15 @@ export class MockBank {
         return {accepted:false,code:'UNTRUSTED_POLICY_ID'};
       }
       sig=auth.signatureBase64;
+    } else {
+      if(!sig)return {accepted:false,code:'MISSING_SIGNATURE'};
+      if(this.pinnedKeyId || this.pinnedPolicyId){
+        return {accepted:false,code:'ENVELOPE_REQUIRED'};
+      }
     }
 
     if(!sig)return {accepted:false,code:'MISSING_SIGNATURE'};
+    if(!this.pinnedPublicKey)return {accepted:false,code:'MISSING_TRUST_ANCHOR'};
     let bytes;
     try{bytes=canonicalize(payment);}catch(err){return {accepted:false,code:err.message.split(':')[0]};}
 

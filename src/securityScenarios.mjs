@@ -43,12 +43,12 @@ export async function runSecurityScenarios() {
   assert.equal(signer.signIfAllowed(high, {approvals: [{approverId: 'finance-a'}, {approverId: 'finance-b'}]}).ok, true);
   const t3 = 'T3 PASS (MOCK): high-value needs two independent mock identities';
 
-  assert.equal(bank.execute({...valid, amountMinor: valid.amountMinor + 1}, ok.signature).code, 'BAD_SIGNATURE');
-  assert.equal(bank.execute({...valid, payeeAccount: 'BETA-DEMO-002'}, ok.signature).code, 'BAD_SIGNATURE');
+  assert.equal(bank.execute(buildBankEnvelope({...valid, amountMinor: valid.amountMinor + 1}, ok)).code, 'BAD_SIGNATURE');
+  assert.equal(bank.execute(buildBankEnvelope({...valid, payeeAccount: 'BETA-DEMO-002'}, ok)).code, 'BAD_SIGNATURE');
   const t4 = 'T4 PASS (MOCK): tampered exact payment bytes fail signature verification';
 
-  assert.equal(bank.execute(valid, ok.signature).code, 'EXECUTED');
-  assert.equal(bank.execute(valid, ok.signature).code, 'REPLAY_NONCE');
+  assert.equal(bank.execute(buildBankEnvelope(valid, ok)).code, 'EXECUTED');
+  assert.equal(bank.execute(buildBankEnvelope(valid, ok)).code, 'REPLAY_NONCE');
   const t5 = 'T5 PASS (MOCK): replayed signed payment refused';
 
   // T6: caller cannot weaken policy rules
@@ -64,7 +64,7 @@ export async function runSecurityScenarios() {
   const otherKey = generateKeyPairSync('ed25519');
   const otherBank = new MockBank({pinnedPublicKey: otherKey.publicKey});
   assert.equal(otherBank.execute(valid, ok.signature).code, 'BAD_SIGNATURE');
-  assert.equal(bank.execute({...valid, domain: 'other-app.v1'}, ok.signature).code, 'INVALID_PAYLOAD');
+  assert.equal(bank.execute(buildBankEnvelope({...valid, domain: 'other-app.v1'}, ok)).code, 'INVALID_PAYLOAD');
   const t7 = 'T7 PASS (MOCK): wrong key, wrong domain, and expired payloads rejected';
 
   // T8: fail-closed real adapter and trust-anchor substitution prevention

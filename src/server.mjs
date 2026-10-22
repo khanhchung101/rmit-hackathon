@@ -28,8 +28,13 @@ for (const name of fixtureNames) {
 }
 
 // Issue A & Issue D: Shared persistent server bank with independent trust anchor
+let serverBankKey = null;
+try {
+  serverBankKey = getBankPinnedPublicKey();
+} catch (_) {}
+
 const serverBank = new MockBank({
-  pinnedPublicKey: getBankPinnedPublicKey(),
+  pinnedPublicKey: serverBankKey,
   pinnedKeyId: 'mock-key-v1',
   pinnedPolicyId: 'leash.payment.v1',
   durablePath: DEFAULT_DURABLE_STORAGE_PATH
