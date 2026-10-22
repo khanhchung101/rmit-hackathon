@@ -411,6 +411,27 @@ mock demo có thể chạy tốt.
 Do đó prototype hiện tại phải mang nhãn **MOCK_ONLY_NOT_TIDE**. Adapter real
 mode cố ý fail với `REAL_TIDE_NOT_WIRED`.
 
+### Final cutover: mock nào được thay bằng dữ liệu thật?
+
+Leash không cần và không được chuyển sang invoice, bank account hay payment thật.
+Các fixture business tiếp tục synthetic. Phần phải trở thành “real” là security
+control và cryptographic evidence:
+
+1. Mock user IDs → TideCloak-enrolled executor/approvers và runtime-verified roles.
+2. Mock approval arrays → transaction-bound Tide approval proofs.
+3. JavaScript mock policy → compiled/deployed Forseti contract với contract ID và
+   source hash đã freeze.
+4. Local `MockSigner` → Tide ORK policy-governed signature.
+5. Local test public key → pinned realm Tide VVK có provenance.
+6. `MOCK_ONLY` envelope → `REAL_TIDE` envelope với real key/policy identifiers.
+7. Mock T1–T8 → redacted real-mode traces; T1–T5 bắt buộc pass.
+8. Mock video path → real demo path; mock vẫn được giữ làm developer regression.
+
+Không commit doken, access token, session, password, private key, licence email,
+real user identity hoặc raw authorization headers. Repo chỉ giữ public identifiers
+được phép công bố, fingerprints, hashes, redacted traces và reproduction steps.
+Checklist và thứ tự cutover đầy đủ nằm trong `docs/EXECUTION_PLAN.md`, Step 8.
+
 ---
 
 ## 12. Presentation narrative

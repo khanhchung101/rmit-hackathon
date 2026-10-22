@@ -31,6 +31,15 @@
 - The write-up is a narrative layer, not a replacement for machine status,
   security claims or runtime evidence.
 
+# 2026-10-22 — Define the final MOCK to REAL_TIDE cutover
+
+- The submission never introduces real invoices, accounts, money or personal
+  financial data. “Real” means Tide identities, approvals, deployed policy,
+  ORK signature, VVK verification and live adversarial evidence.
+- Mock components remain available for regression but cannot be imported or
+  used as fallback by `TIDE_MODE=real`.
+- L-025 remains BLOCKED until L-013 and L-018 produce G4/G5 evidence.
+
 # 2026-10-22 — Step 5 vertical slice, durable bank replay protection, and full T1–T8 suite
 
 - Added durable file-backed replay prevention to `MockBank` with atomic lockfile mutual exclusion (`src/bank.mjs`), resolving L-016 across restarts and multi-process workers.

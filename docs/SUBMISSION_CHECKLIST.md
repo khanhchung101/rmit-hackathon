@@ -12,4 +12,15 @@
 - [ ] `npm run pack:evidence` generates integrity manifest; record git commit and 2 independent reviewer approvals.
 - [ ] Submitted form acknowledgement/receipt recorded if and only if actually received.
 
+## Final MOCK → REAL_TIDE cutover
+
+- [ ] Synthetic invoice, fake accounts and simulated payment execution remain synthetic; no live financial data introduced.
+- [ ] Real TideCloak executor and approvers are enrolled; repo contains no doken/session/PII.
+- [ ] Forseti contract is compiled/deployed; contract ID, SDK version and source SHA-512 recorded.
+- [ ] `TIDE_MODE=real` uses no `MockSigner` import or fallback path.
+- [ ] Bank pins the documented Tide VVK/key and deployed policy identity out of band.
+- [ ] Real positive, forbidden payee, missing approval, tamper and replay traces are captured and redacted.
+- [ ] Demo/video uses real mode; every remaining mock screen is visibly labeled `MOCK_ONLY_NOT_TIDE`.
+- [ ] `STATUS.json`, README and `SECURITY_CLAIMS.md` are promoted only after G4/G5 evidence review.
+
 **Status on kit delivery: NOT READY; Step 0 and G4 unresolved.**

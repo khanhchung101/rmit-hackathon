@@ -109,6 +109,57 @@ eligible human submit the Google Form. Only an observed acknowledgement counts
 as a receipt. If the portal closes or G4/G5 fail, publish a NO-GO report instead
 of declaring challenge completion.
 
+#### Final cutover — từ MOCK sang REAL_TIDE
+
+Trong PoC này, “real data” chỉ có nghĩa là **real Tide authorization artifacts**.
+Không thay synthetic invoice, fake payee/account hoặc simulated bank execution
+bằng dữ liệu tài chính thật. Không có tiền thật, credential thật trong Git hay
+PII trong evidence.
+
+| MOCK hiện tại | Thay bằng khi cutover | Có lưu trong repo? |
+|---|---|---|
+| `finance-a`/`finance-b` strings | TideCloak-enrolled executor và approvers, role/doken được runtime xác minh | Chỉ pseudonym, role mapping và redacted trace; không lưu doken/session |
+| `src/policy.mjs` quyết định allow/deny | Deployed `LeashPaymentPolicy.cs` chạy trong Forseti | Source, SDK version, SHA-512, deployed contract ID và redacted deployment proof |
+| Caller-supplied approval array | Tide approval flow gắn với exact transaction | Payload/approval hashes và redacted result; không lưu token |
+| `MockSigner` local Ed25519 key | `TideForsetiSigner` gọi policy-governed ORK signing | Adapter source, signature hash/encoding và request trace; không private key |
+| Mock public key | Realm Tide VVK được pin out-of-band | Public key/fingerprint và provenance nếu Tide cho phép công bố |
+| `MOCK_ONLY` bank envelope | `REAL_TIDE` envelope với real key ID và deployed policy ID | Schema, public IDs và verified example đã redact |
+| Mock T1–T8 | Real Tide T1–T8, bắt buộc T1–T5 pass | Per-test evidence JSON, timestamps, commands và reviewer |
+| Mock demo/UI | Real-mode demo hoặc fail-closed | Video chỉ quay real path; mock command vẫn giữ cho local regression |
+
+Business fixtures được giữ nguyên:
+
+- Synthetic invoice text và prompt-injection fixture.
+- Fake vendor/payee/account identifiers.
+- USD integer minor units nhưng không đại diện tiền thật.
+- Deterministic proposer; LLM thật vẫn optional.
+- Mock Bank như một independent simulated receiver, nhưng nó phải verify chữ ký
+  Tide thật bằng pinned Tide VVK.
+
+Cutover thực hiện theo thứ tự fail-closed:
+
+1. Chạy và lưu baseline mock regression; không xóa `MockSigner` hoặc mock tests.
+2. Provision non-master Tide realm, client, roles và human enrollment ngoài Git.
+3. Compile/deploy Forseti contract; freeze contract ID, source hash và parameters.
+4. Điền public/non-secret runtime configuration từ realm thật. Secret, session,
+   doken và credential chỉ được inject lúc chạy, không được log hoặc commit.
+5. Implement real adapter; `TIDE_MODE=real` không được import, gọi hoặc fallback
+   sang `MockSigner` dưới bất kỳ failure path nào.
+6. Lấy VVK từ documented Tide source và pin độc lập tại bank. Không nhận key từ
+   payment request và không dùng OIDC JWT key nếu chưa chứng minh tương đương.
+7. Chạy real positive request, forbidden payee, missing approval, tamper và replay;
+   ghi exact payload hash, signature hash, contract/key identity và verifier result.
+8. Đổi demo/video path sang real mode. Mock UI/CLI phải có watermark
+   `MOCK_ONLY_NOT_TIDE` và không được xuất hiện như evidence của Tide.
+9. Cập nhật `STATUS.json`, claim ledger, README và video chỉ sau khi G4/G5 pass.
+10. Chạy secret scan, clean-machine reproduction và evidence pack; human reviewer
+    xác nhận không có private material trước khi public repository/submission.
+
+Cutover hoàn thành khi `npm run test:tide` chạy real path thành công, forbidden
+requests không nhận bank-valid signature, independent bank xác minh allowed exact
+bytes, và source scan chứng minh real adapter không có mock fallback. Nếu bất kỳ
+điều kiện nào thiếu, giữ `mode=MOCK_ONLY` và kết luận NO-GO thay vì đổi nhãn.
+
 ## Immediate execution queue
 
 1. **Now, agent-owned:** freeze machine-readable local schemas and consistency
