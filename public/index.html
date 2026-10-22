@@ -317,6 +317,7 @@
       const simulateCompromise = document.getElementById('simulate-compromise').checked;
       
       const nonce = 'ui-demo-' + Date.now();
+      const expiresAt = new Date(Date.now() + 900 * 1000).toISOString();
       const approvals = [];
       const selectedApprovers = [];
       if (document.getElementById('app-finance-a').checked) selectedApprovers.push('finance-a');
@@ -333,7 +334,7 @@
           const appRes = await fetch('/api/approve', {
             method: 'POST',
             headers,
-            body: JSON.stringify({ approverId, invoiceText, simulateCompromise, nonce })
+            body: JSON.stringify({ approverId, invoiceText, simulateCompromise, nonce, expiresAt })
           });
           if (appRes.ok) {
             approvals.push(await appRes.json());
@@ -356,7 +357,7 @@
         const res = await fetch('/api/pipeline', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ invoiceText, simulateCompromise, approvals, nonce })
+          body: JSON.stringify({ invoiceText, simulateCompromise, approvals, nonce, expiresAt })
         });
         const result = await res.json();
         output.textContent = JSON.stringify(result, null, 2);
