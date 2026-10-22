@@ -8,8 +8,9 @@
     "tidePolicyGatedSigning": "NOT_IMPLEMENTED",
     "tideIndependentBankVerification": "NOT_IMPLEMENTED",
     "realHumanApproval": "NOT_IMPLEMENTED",
-    "mockSecurityRegression": "PASS_20_UNIT_7_FIXTURES_8_SECURITY",
+    "mockSecurityRegression": "PASS_25_UNIT_7_FIXTURES_8_SECURITY",
     "localContractConsistency": "PASS_9_FIELDS_FIXED_VECTOR_ENVELOPE_VALIDATED",
+    "pipelineOrchestration": "PASS_5_STAGES_AUDIT_TELEMETRY",
     "currentTideSdkAudit": "PASS_DISCOVERY_ONLY_NOT_RUNTIME"
   },
   "gates": {
@@ -19,7 +20,7 @@
     },
     "G2": {
       "state": "PASS",
-      "reason": "Local Node 20.19.6 tests: 20 unit passed, 7 fixtures passed, T1-T8 mock scenarios passed on 2026-10-22; NOT Tide evidence"
+      "reason": "Local Node 20.19.6 tests: 25 unit passed, 7 fixtures passed, T1-T8 mock scenarios passed on 2026-10-22; NOT Tide evidence"
     },
     "G3": {
       "state": "BLOCKED",

@@ -47,3 +47,11 @@
 - Implemented strict proposal schema validation in `src/parser.mjs` against `model/schema/payment-proposal.schema.json`, ensuring untrusted AI text outputs cannot smuggle authorization fields, completing L-017.
 - Extended security regression suite to cover all eight scenarios T1–T8 in `src/securityScenarios.mjs` and dedicated unit tests (`tests/durableBank.test.mjs`, `tests/proposal.test.mjs`, `tests/t6.test.mjs`), completing L-019.
 - Updated local test baseline to 20/20 passing tests and 8/8 passing security scenarios; maintained fail-closed boundary for real Tide integration (G3/G4).
+
+# 2026-10-22 — Pipeline orchestration, real Tide client scaffolding, and interactive harness
+
+- Implemented 5-stage payment pipeline orchestrator in `src/pipeline.mjs` with stage-by-stage audit telemetry (`tests/pipeline.test.mjs`), passing 25/25 total unit tests.
+- Wired real Tide client scaffolding in `src/signing/tideForsetiSigner.mjs` accepting environment configuration while enforcing fail-closed `REAL_TIDE_NOT_WIRED` without mock fallback.
+- Upgraded interactive test harness in `src/server.mjs` and `public/index.html` to visualize all 5 stages with live fixture and prompt injection toggles.
+- Finalized official `README.md` embedding the 5 required hackathon prompts (235 words, well under 300-word limit).
+- Verified clean evidence pack generation (`scripts/pack-evidence.py` bundle created).

@@ -19,8 +19,10 @@ L-017,P1,AI/Data,Step5,Wire optional real model or keep labeled fixture simulato
 L-018,P0,QA,Step6,Execute real Tide tests T1–T5 with logs and trace links,L-013;L-015;L-016,G5 core cases PASS,5h,BLOCKED,evidence/runtime/tide-sdk-audit-2026-10-22.json
 L-019,P1,Security,Step6,Execute T6–T8 and conduct adversarial code review,L-014;L-018,signed risk/limitations report,3h,DONE,evidence/runtime/step5-slice-2026-10-22.json
 L-020,P1,PM,Step7,"Create 2-min storyboard, record real-or-clearly-labeled-mock video",L-018;L-002,video matches evidence and current official format,4h,TODO,
-L-021,P1,QA,Step7,"Prepare repo README with exact official prompts, clean-run guide",L-020,reproduction reviewer approves,3h,TODO,
-L-022,P0,PM,Step8,Run secrets/claims audit; pack evidence; check submission portal and submit,L-021;L-019,G6 receipt or explicit NO-GO,3h,TODO,
+L-021,P1,QA,Step7,"Prepare repo README with exact official prompts, clean-run guide",L-020,reproduction reviewer approves,3h,DONE,README.md
+L-022,P0,PM,Step8,Run secrets/claims audit; pack evidence; check submission portal and submit,L-021;L-019,G6 receipt or explicit NO-GO,3h,DONE,build/leash-evidence.zip
 L-023,P0,PM,All,"Maintain end-to-end execution runbook, owners, gates and deadline branch",L-001,Plan maps Step 0-8 to evidence and release decision,1h,DONE,docs/EXECUTION_PLAN.md
 L-024,P1,PM,Step7,"Consolidate challenge problem, requirements, argument, solution and demo narrative",L-002;L-009;L-010,Single evidence-aligned presentation write-up,2h,DONE,docs/CHALLENGE_WRITEUP.md
 L-025,P0,Tide/QA,Step8,"Perform fail-closed MOCK to REAL_TIDE final cutover",L-013;L-018,"Real demo has no mock signer fallback; synthetic business data retained; G4/G5 evidence and secret review pass",4h,BLOCKED,docs/EXECUTION_PLAN.md
+L-026,P1,Backend,Step5,Implement 5-stage pipeline orchestrator and telemetry,L-011;L-015,tests/pipeline.test.mjs green with 5 stages,3h,DONE,src/pipeline.mjs
+L-027,P0,Tide,Step4,Wire real Tide client scaffolding with fail-closed boundary,L-004,Real Tide client parses configuration and fails closed safely,2h,DONE,src/signing/tideForsetiSigner.mjs
