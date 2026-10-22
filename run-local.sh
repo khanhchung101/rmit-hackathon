@@ -34,6 +34,12 @@ node -v >/dev/null 2>&1 || { echo "Error: Node.js >= 20 is required."; exit 1; }
 
 # 3. Start Leash HTTP Demo Server on port 8787
 echo "[3/3] Starting Leash Interactive Web Server on port 8787..."
+# Free port 8787 if occupied by previous run
+if lsof -ti :8787 >/dev/null 2>&1; then
+  echo "  Freeing occupied port 8787..."
+  lsof -ti :8787 | xargs -r kill -9 2>/dev/null || true
+  sleep 1
+fi
 echo ""
 echo "================================================================="
 echo "   READY! OPEN YOUR BROWSER TO ACCESS THE DEMO:                 "
