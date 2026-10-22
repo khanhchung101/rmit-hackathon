@@ -26,3 +26,8 @@ L-024,P1,PM,Step7,"Consolidate challenge problem, requirements, argument, soluti
 L-025,P0,Tide/QA,Step8,"Perform fail-closed MOCK to REAL_TIDE final cutover",L-013;L-018,"Real demo has no mock signer fallback; synthetic business data retained; G4/G5 evidence and secret review pass",4h,BLOCKED,docs/EXECUTION_PLAN.md
 L-026,P1,Backend,Step5,Implement 5-stage pipeline orchestrator and telemetry,L-011;L-015,tests/pipeline.test.mjs green with 5 stages,3h,DONE,src/pipeline.mjs
 L-027,P0,Tide,Step4,Wire real Tide client scaffolding with fail-closed boundary,L-004,Real Tide client parses configuration and fails closed safely,2h,DONE,src/signing/tideForsetiSigner.mjs
+L-028,P0,Backend,Step5,"Fix HTTP replay protection with shared durable bank atomic ledger (Issue A)",L-016,"Concurrent requests atomically serialize; duplicate nonces rejected across restarts",3h,DONE,tests/securityAuditRemediation.test.mjs
+L-029,P0,Security,Step4,"Enforce cryptographic approver proof validation and reject identity spoofing (Issue B)",L-014,"HMAC proof bound to exact payment SHA-256; raw string spoofing rejected",3h,DONE,src/approvals.mjs
+L-030,P1,Security,Step3,"Harmonize payment expiration to 900s matching Forseti C# spec (Issue C)",L-011,"Capped at 900s; clock skew handled; expired payloads rejected",2h,DONE,src/canonical.mjs
+L-031,P0,Security,Step5,"Decouple bank verification key from pipeline signer trust anchor (Issue D)",L-015,"Independent trust anchor pinning; rogue keys rejected",2h,DONE,src/trustAnchor.mjs
+L-032,P0,QA,Step6,"Expand security scenarios to T1-T18 covering concurrency, proofs and boundaries",L-028;L-029;L-030;L-031,"18/18 security scenarios passing in test suite and CLI runner",3h,DONE,src/securityScenarios.mjs

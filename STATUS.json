@@ -1,6 +1,6 @@
 {
   "project": "Leash — Tide UNLOCKED security PoC",
-  "asOf": "2026-10-22T07:05:00Z",
+  "asOf": "2026-10-22T08:30:00Z",
   "overall": "STEP0_BLOCKED_EXTERNAL",
   "mode": "MOCK_ONLY",
   "submissionStatus": "OPEN_AT_2026-10-22T06:27:36Z_UNTIL_2026-10-22T11:00:00Z_TEAM_ELIGIBILITY_UNVERIFIED",
@@ -8,10 +8,14 @@
     "tidePolicyGatedSigning": "NOT_IMPLEMENTED",
     "tideIndependentBankVerification": "NOT_IMPLEMENTED",
     "realHumanApproval": "NOT_IMPLEMENTED",
-    "mockSecurityRegression": "PASS_25_UNIT_7_FIXTURES_8_SECURITY",
+    "mockSecurityRegression": "PASS_35_UNIT_7_FIXTURES_18_SECURITY",
     "localContractConsistency": "PASS_9_FIELDS_FIXED_VECTOR_ENVELOPE_VALIDATED",
     "pipelineOrchestration": "PASS_5_STAGES_AUDIT_TELEMETRY",
-    "currentTideSdkAudit": "PASS_DISCOVERY_ONLY_NOT_RUNTIME"
+    "currentTideSdkAudit": "PASS_DISCOVERY_ONLY_NOT_RUNTIME",
+    "remediationIssueA": "RESOLVED_SHARED_DURABLE_ATOMIC_LEDGER",
+    "remediationIssueB": "RESOLVED_HMAC_APPROVAL_PROOF_VERIFICATION",
+    "remediationIssueC": "RESOLVED_HARMONIZED_900S_EXPIRY_FORSETI_SPEC",
+    "remediationIssueD": "RESOLVED_DECOUPLED_INDEPENDENT_TRUST_ANCHOR"
   },
   "gates": {
     "G1": {
@@ -20,7 +24,7 @@
     },
     "G2": {
       "state": "PASS",
-      "reason": "Local Node 20.19.6 tests: 25 unit passed, 7 fixtures passed, T1-T8 mock scenarios passed on 2026-10-22; NOT Tide evidence"
+      "reason": "Local Node 20.19.6 tests: 35 unit passed (including durable concurrency, approver proofs, boundary, and expiry checks), 7 fixtures passed, T1-T18 mock scenarios passed; NOT Tide evidence"
     },
     "G3": {
       "state": "BLOCKED",

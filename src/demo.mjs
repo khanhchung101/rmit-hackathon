@@ -3,7 +3,10 @@ import {propose} from './agent.mjs';
 import {makePayment} from './canonical.mjs';
 import {MockSigner} from './signing/mockSigner.mjs';
 import {MockBank, buildBankEnvelope} from './bank.mjs';
+import {createMockApproval} from './approvals.mjs';
+
 function invoice(name){return readFileSync(new URL(`../fixtures/invoices/${name}.txt`,import.meta.url),'utf8');}
+
 export function runMockDemo(){
  const signer=new MockSigner();
  const bank=new MockBank({
@@ -14,18 +17,27 @@ export function runMockDemo(){
 
  // 1. Valid low-value payment (1 approver required)
  const valid=makePayment(propose(invoice('valid-low')),{nonce:'demo-valid-001'});
- const good=signer.signIfAllowed(valid,{approvals:[{approverId:'finance-a'}]});
+ const good=signer.signIfAllowed(valid,{
+   approvals:[createMockApproval({approverId:'finance-a',payment:valid})]
+ });
  const executed=bank.execute(buildBankEnvelope(valid,good,{keyId:'demo-pinned-key-01',policyId:'leash.payment.v1'}));
 
  // 2. Valid high-value payment (2 distinct approvers required)
  const high=makePayment(propose(invoice('valid-high')),{nonce:'demo-high-002'});
- const highGood=signer.signIfAllowed(high,{approvals:[{approverId:'finance-a'},{approverId:'finance-b'}]});
+ const highGood=signer.signIfAllowed(high,{
+   approvals:[
+     createMockApproval({approverId:'finance-a',payment:high}),
+     createMockApproval({approverId:'finance-b',payment:high})
+   ]
+ });
  const highExecuted=bank.execute(buildBankEnvelope(high,highGood,{keyId:'demo-pinned-key-01',policyId:'leash.payment.v1'}));
 
  // 3. Prompt injection attack: hostile invoice alters payee proposal
  const injectedProposal=propose(invoice('malicious-prompt-injection'),{simulateCompromise:true});
  const hostile=makePayment(injectedProposal,{nonce:'demo-hostile-003'});
- const hostileResult=signer.signIfAllowed(hostile,{approvals:[{approverId:'finance-a'}]});
+ const hostileResult=signer.signIfAllowed(hostile,{
+   approvals:[createMockApproval({approverId:'finance-a',payment:hostile})]
+ });
 
  // 4. Direct bank bypass without signature
  const bypass=bank.execute(hostile,null);
@@ -61,4 +73,5 @@ export function runMockDemo(){
    untrustedKeySubstitution:untrustedKey
  };
 }
+
 if(import.meta.url===`file://${process.argv[1]}`){console.log(JSON.stringify(runMockDemo(),null,2));}

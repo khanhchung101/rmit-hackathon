@@ -4,8 +4,12 @@
  */
 import {verify,createPublicKey} from 'node:crypto';
 import {readFileSync,appendFileSync,existsSync,mkdirSync,openSync,closeSync,unlinkSync} from 'node:fs';
-import {dirname} from 'node:path';
+import {dirname, join} from 'node:path';
+import {tmpdir} from 'node:os';
 import {canonicalize} from './canonical.mjs';
+import {getBankPinnedPublicKey} from './trustAnchor.mjs';
+
+export const DEFAULT_DURABLE_STORAGE_PATH = process.env.LEASH_BANK_STORAGE_PATH || join(tmpdir(), 'leash-bank-durable-nonces.jsonl');
 
 function withLock(lockPath, fn) {
   const maxRetries = 100;
@@ -37,13 +41,15 @@ function withLock(lockPath, fn) {
 }
 
 export class MockBank {
-  constructor({pinnedPublicKey, pinnedKeyId, pinnedPolicyId, durablePath}={}){
-    if(!pinnedPublicKey)throw Error('BANK_MISSING_PINNED_KEY');
-    this.pinnedPublicKey=pinnedPublicKey?.type === 'public' ? pinnedPublicKey : createPublicKey(pinnedPublicKey);
-    this.pinnedKeyId=pinnedKeyId||null;
-    this.pinnedPolicyId=pinnedPolicyId||null;
-    this.durablePath=durablePath||null;
-    this.consumed=new Set();
+  constructor({pinnedPublicKey, pinnedKeyId, pinnedPolicyId, durablePath, preventDuplicateInvoices=false}={}){
+    const trustedKey = pinnedPublicKey || getBankPinnedPublicKey();
+    this.pinnedPublicKey = trustedKey?.type === 'public' ? trustedKey : createPublicKey(trustedKey);
+    this.pinnedKeyId = pinnedKeyId || null;
+    this.pinnedPolicyId = pinnedPolicyId || null;
+    this.durablePath = durablePath || null;
+    this.preventDuplicateInvoices = Boolean(preventDuplicateInvoices);
+    this.consumed = new Set();
+    this.settledInvoices = new Set();
 
     if(this.durablePath){
       mkdirSync(dirname(this.durablePath),{recursive:true});
@@ -61,6 +67,7 @@ export class MockBank {
       try{
         const entry=JSON.parse(trimmed);
         if(entry?.nonce)this.consumed.add(entry.nonce);
+        if(entry?.invoiceId)this.settledInvoices.add(entry.invoiceId);
       }catch{}
     }
   }
@@ -70,9 +77,13 @@ export class MockBank {
     return withLock(lockPath,()=>{
       this._reloadDurableLedger();
       if(this.consumed.has(payment.nonce))return {accepted:false,code:'REPLAY_NONCE'};
+      if(this.preventDuplicateInvoices && this.settledInvoices.has(payment.invoiceId)){
+        return {accepted:false,code:'DUPLICATE_INVOICE'};
+      }
       const record=JSON.stringify({nonce:payment.nonce,timestamp:Date.now(),invoiceId:payment.invoiceId})+'\n';
       appendFileSync(this.durablePath,record,'utf8');
       this.consumed.add(payment.nonce);
+      this.settledInvoices.add(payment.invoiceId);
       return {accepted:true,code:'EXECUTED',invoiceId:payment.invoiceId};
     });
   }
@@ -100,6 +111,13 @@ export class MockBank {
     if(!sig)return {accepted:false,code:'MISSING_SIGNATURE'};
     let bytes;
     try{bytes=canonicalize(payment);}catch(err){return {accepted:false,code:err.message.split(':')[0]};}
+
+    const expiryEpoch = Math.floor(Date.parse(payment.expiresAt) / 1000);
+    const nowEpoch = Math.floor(Date.now() / 1000);
+    if (expiryEpoch <= nowEpoch - 30) {
+      return {accepted: false, code: 'EXPIRED'};
+    }
+
     if(!/^[A-Za-z0-9+/]+={0,2}$/.test(sig)||sig.length>256)
       return {accepted:false,code:'BAD_SIGNATURE'};
     const signature=Buffer.from(sig,'base64');
@@ -111,8 +129,12 @@ export class MockBank {
     }
 
     if(this.consumed.has(payment.nonce))return {accepted:false,code:'REPLAY_NONCE'};
+    if(this.preventDuplicateInvoices && this.settledInvoices.has(payment.invoiceId)){
+      return {accepted:false,code:'DUPLICATE_INVOICE'};
+    }
     // Single-threaded mock atomic section: no await between check and mark.
     this.consumed.add(payment.nonce);
+    this.settledInvoices.add(payment.invoiceId);
     return {accepted:true,code:'EXECUTED',invoiceId:payment.invoiceId};
   }
 }

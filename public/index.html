@@ -216,16 +216,33 @@
       const invoiceText = document.getElementById('invoice-text').value;
       const simulateCompromise = document.getElementById('simulate-compromise').checked;
       
+      const nonce = 'ui-demo-' + Date.now();
       const approvals = [];
-      if (document.getElementById('app-finance-a').checked) approvals.push({ approverId: 'finance-a' });
-      if (document.getElementById('app-finance-b').checked) approvals.push({ approverId: 'finance-b' });
-      if (document.getElementById('app-self').checked) approvals.push({ approverId: 'agent' });
+      const selectedApprovers = [];
+      if (document.getElementById('app-finance-a').checked) selectedApprovers.push('finance-a');
+      if (document.getElementById('app-finance-b').checked) selectedApprovers.push('finance-b');
+      if (document.getElementById('app-self').checked) selectedApprovers.push('agent');
 
       try {
+        // Issue B: Legitimate approvers sign an approval card bound to the exact transaction
+        for (const approverId of selectedApprovers) {
+          const appRes = await fetch('/api/approve', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ approverId, invoiceText, simulateCompromise, nonce })
+          });
+          if (appRes.ok) {
+            approvals.push(await appRes.json());
+          } else {
+            // For invalid approver test (e.g. agent), push unverified object
+            approvals.push({ approverId });
+          }
+        }
+
         const res = await fetch('/api/pipeline', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ invoiceText, simulateCompromise, approvals, nonce: 'ui-demo-' + Date.now() })
+          body: JSON.stringify({ invoiceText, simulateCompromise, approvals, nonce })
         });
         const result = await res.json();
         output.textContent = JSON.stringify(result, null, 2);

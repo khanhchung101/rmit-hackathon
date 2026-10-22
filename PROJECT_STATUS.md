@@ -6,11 +6,17 @@
 
 **Tide feasibility:** Current packages and APIs were audited through official docs, Raziel MCP 1.9.33 and Tide Foundation sources. Custom transaction signing requires a custom Forseti contract whose test-network deployment is performed by the Tide team. Realm setup additionally requires a user-supplied licence email, explicit Terms acceptance and human browser enrollment. No realm, doken, signed policy, Tide VVK or real signature exists; G3/G4/G5 remain BLOCKED. Raziel also records an unresolved network-validation gap for EXPLICIT custom-model approvals (GAP-072).
 
-**Local evidence:** Node 20.19.6, Git 2.43.0, Docker 29.6.2 and Compose 5.3.1. `npm test` passes 20/20; seven invoice fixtures pass; T1–T8 pass in MOCK mode; `npm run tide:probe` exits 3 with `REAL_TIDE_NOT_WIRED`. Output hashes and details are in `evidence/runtime/step5-slice-2026-10-22.json`.
+**Local evidence & Security Remediation:** Node 20.19.6, Git 2.43.0, Docker 29.6.2. `npm test` passes 35/35 tests across unit, durable bank concurrency, approver proof verification, and quorum boundaries; seven invoice fixtures pass; T1–T18 pass in MOCK mode (`npm run security`); `npm run tide:probe` exits 3 with `REAL_TIDE_NOT_WIRED`. Output hashes and details are recorded in `evidence/runtime/` and `docs/TECHNICAL_ASSESSMENT.md`.
+
+**Audited Defect Remediations:**
+- **Issue A (HTTP Replay Protection):** Resolved by attaching a singleton durable MockBank with atomic POSIX file locking (`nonces.jsonl`) to `server.mjs`. Concurrent requests atomically serialize and reject duplicates across process restarts (verified via T9).
+- **Issue B (Approver Identity Spoofing):** Resolved via `src/approvals.mjs` and `/api/approve`. Plain client-supplied approver names are rejected; approvals require cryptographic proofs bound to the exact canonical payment SHA-256 hash (verified via T10, T11, T17).
+- **Issue C (Payment Expiration Mismatch):** Resolved by capping validity window to `MAX_EXPIRY_SECONDS = 900` in `src/canonical.mjs` with explicit clock skew handling, strictly matching Forseti `LeashPaymentPolicy.cs` (verified via T12, T13).
+- **Issue D (Signing Key Trust Decoupling):** Resolved via `src/trustAnchor.mjs`. Bank verification public key is independently pinned and isolated from pipeline signer instances (verified via T14).
 
 **Contract candidate:** `forseti/LeashPaymentPolicy.cs` now reflects the current Forseti context split and fails closed on request model, policy mode, exact fixed-order payment bytes, allowlist, expiry, real doken roles, distinct VUIDs and self-approval. Raziel's sandbox scanner passes. It is **not compile-verified or deployed**: no local .NET SDK exists and the .NET container download failed/stalled. This candidate is not G4 evidence.
 
-**Vertical slice & contract implementation:** Tasks L-011, L-015, L-016, L-017, and L-019 are complete. The bank receiver envelope validates schema, keyId, and policyId pinning; the receiver implements durable file-backed replay prevention with atomic locking; proposal validation strictly prevents AI prompt injection from smuggling authority fields; and T1–T8 mock regression is fully implemented and automated.
+**Vertical slice & contract implementation:** Tasks L-011 through L-032 are complete. The bank receiver envelope validates schema, keyId, and policyId pinning; the receiver implements durable file-backed replay prevention with atomic locking; proposal validation strictly prevents AI prompt injection from smuggling authority fields; and T1–T18 mock regression is fully implemented and automated.
 
 **Next externally owned actions:** establish participant eligibility; provide Tide licence email and explicit Terms decision; select local versus hosted realm; complete human account linking; ask Tide to review/deploy the custom signing contract; then capture real allowed/denied signing traces and independently verify the exact bytes with the realm VVK.
 

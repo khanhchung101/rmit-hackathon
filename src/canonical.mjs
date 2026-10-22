@@ -4,10 +4,22 @@ export const SIGNED_KEYS = Object.freeze([
 ]);
 export const DOMAIN = 'leash.payment.v1';
 export const VERSION = 'leash.pay.v1';
+export const DEFAULT_EXPIRY_SECONDS = 900; // 15 minutes, matching Forseti MaxExpirySeconds
+export const MAX_EXPIRY_SECONDS = 900;
+export const CLOCK_SKEW_TOLERANCE_SECONDS = 30;
 const ASCII = /^[\x20-\x7E]+$/;
 const SAFE_TOKEN = /^[A-Za-z0-9._-]+$/;
 
-export function validatePayment(p, {at=new Date()} = {}) {
+export function validatePayment(p, options = {}) {
+  let at = new Date();
+  let maxExpirySeconds = null;
+  if (options instanceof Date) {
+    at = options;
+  } else if (options && typeof options === 'object') {
+    if (options.at) at = options.at instanceof Date ? options.at : new Date(options.at);
+    if ('maxExpirySeconds' in options) maxExpirySeconds = options.maxExpirySeconds;
+  }
+
   if (!p || typeof p !== 'object' || Array.isArray(p)) throw Error('INVALID_PAYLOAD:object');
   const keys = Object.keys(p).sort();
   if (keys.length !== SIGNED_KEYS.length || keys.some((v,i)=>v!==SIGNED_KEYS[i]))
@@ -26,7 +38,16 @@ export function validatePayment(p, {at=new Date()} = {}) {
   if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(p.expiresAt) ||
       !Number.isFinite(Date.parse(p.expiresAt)) || new Date(p.expiresAt).toISOString() !== p.expiresAt)
     throw Error('INVALID_PAYLOAD:expiry-format');
-  if (Date.parse(p.expiresAt) <= at.getTime()) throw Error('EXPIRED');
+  const expiryTime = Date.parse(p.expiresAt);
+  const atTime = at.getTime();
+  if (expiryTime <= atTime - (CLOCK_SKEW_TOLERANCE_SECONDS * 1000)) throw Error('EXPIRED');
+  if (expiryTime <= atTime) throw Error('INVALID_PAYLOAD:expiry-before-issued');
+  if (maxExpirySeconds !== null) {
+    const deltaSeconds = (expiryTime - atTime) / 1000;
+    if (deltaSeconds > (maxExpirySeconds + CLOCK_SKEW_TOLERANCE_SECONDS)) {
+      throw Error('INVALID_PAYLOAD:expiry-window-too-long');
+    }
+  }
   return true;
 }
 export function canonicalize(p, options={}) {
@@ -34,19 +55,27 @@ export function canonicalize(p, options={}) {
   const sorted = Object.fromEntries(SIGNED_KEYS.map(k=>[k,p[k]]));
   return Buffer.from(JSON.stringify(sorted), 'utf8');
 }
-export function makePayment(proposal, {nonce, expiresAt='2030-01-01T00:00:00.000Z'}={}) {
+export function makePayment(proposal, {
+  nonce,
+  expiresAt,
+  validitySeconds = DEFAULT_EXPIRY_SECONDS,
+  issuedAt = new Date(),
+  maxExpirySeconds = MAX_EXPIRY_SECONDS
+} = {}) {
+  const issuedDate = issuedAt instanceof Date ? issuedAt : new Date(issuedAt);
+  const calculatedExpiry = expiresAt || new Date(issuedDate.getTime() + (validitySeconds * 1000)).toISOString();
   const p = {
     amountMinor: proposal.amountMinor,
     currency: proposal.currency,
     domain: DOMAIN,
-    expiresAt,
+    expiresAt: calculatedExpiry,
     invoiceId: proposal.invoiceId,
     nonce: nonce || `nonce-${cryptoRandom()}`,
     payeeAccount: proposal.payeeAccount,
     payeeId: proposal.payeeId,
     version: VERSION
   };
-  validatePayment(p);
+  validatePayment(p, {at: issuedDate, maxExpirySeconds});
   return p;
 }
 function cryptoRandom(){return globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2) + Date.now();}

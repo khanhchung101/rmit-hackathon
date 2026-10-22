@@ -55,3 +55,11 @@
 - Upgraded interactive test harness in `src/server.mjs` and `public/index.html` to visualize all 5 stages with live fixture and prompt injection toggles.
 - Finalized official `README.md` embedding the 5 required hackathon prompts (235 words, well under 300-word limit).
 - Verified clean evidence pack generation (`scripts/pack-evidence.py` bundle created).
+
+# 2026-10-22 — Security Audit Remediation (Issues A–D, Scenarios T9–T18)
+
+- **Issue A (HTTP & Concurrent Replay Protection):** Replaced per-request ephemeral bank instances with a shared durable `MockBank` instance backed by POSIX atomic file locking (`nonces.jsonl`). Multi-process and concurrent identical requests serialize safely, rejecting repeats with `REPLAY_NONCE` (verified via test scenario T9).
+- **Issue B (Approver Identity Spoofing):** Implemented cryptographic approval proof generation and verification in `src/approvals.mjs` and exposed `/api/approve`. Approvals cannot be forged by merely passing an `approverId` string; each approval is cryptographically bound to the exact canonical payment SHA-256 hash. Cross-payment substitution and expired approvals are strictly rejected (verified via test scenarios T10, T11, T17).
+- **Issue C (Payment Expiration Harmonization):** Harmonized payment validity intervals to a maximum of 900 seconds (`MAX_EXPIRY_SECONDS = 900`) in `src/canonical.mjs` and `src/policy.mjs`, matching the Forseti C# contract specification (`LeashPaymentPolicy.cs`). Added explicit clock skew tolerance (30s) and bank-side expiration rejection (verified via test scenarios T12, T13).
+- **Issue D (Signing Key Trust Decoupling):** Created `src/trustAnchor.mjs` to decouple the bank's pinned verification public key from the signer instances created in the pipeline. Attackers cannot substitute or inject their own verification keys into the bank (verified via test scenario T14).
+- **Security Scenario Expansion (T1–T18):** Expanded test matrix from 8 to 18 scenarios in `tests/securityAuditRemediation.test.mjs` and `src/securityScenarios.mjs`, verifying canonical floats rejection (T15), exact quorum boundary enforcement (T16), and duplicate invoice reference detection (T18). Total unit test suite expanded to 35 passing tests.

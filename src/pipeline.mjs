@@ -1,17 +1,24 @@
 /**
  * LEASH PAYMENT PIPELINE ORCHESTRATOR
+ *
  * Executes the complete 5-stage cryptographic authorization boundary:
  * Stage 1: Proposal extraction & schema validation
  * Stage 2: Canonical payment byte serialization & hashing
  * Stage 3: Tide / Policy-gated threshold signing
  * Stage 4: Bank execution envelope assembly & trust-anchor binding
  * Stage 5: Independent bank verification & durable replay check
+ *
+ * Addresses:
+ * - Issue A: Shared durable replay store preventing HTTP replay across requests.
+ * - Issue C: Enforcing bounded expiry consistent with Forseti (900s).
+ * - Issue D: Independent bank trust anchor decoupled from caller/signer key.
  */
 import { propose } from './agent.mjs';
-import { makePayment, canonicalize } from './canonical.mjs';
+import { makePayment, canonicalize, DEFAULT_EXPIRY_SECONDS } from './canonical.mjs';
 import { MockSigner } from './signing/mockSigner.mjs';
 import { TideForsetiSigner } from './signing/tideForsetiSigner.mjs';
-import { MockBank, buildBankEnvelope } from './bank.mjs';
+import { MockBank, buildBankEnvelope, DEFAULT_DURABLE_STORAGE_PATH } from './bank.mjs';
+import { getBankPinnedPublicKey } from './trustAnchor.mjs';
 import { createHash } from 'node:crypto';
 
 export async function processInvoicePayment({
@@ -56,7 +63,12 @@ export async function processInvoicePayment({
   let canonicalBytes;
   let canonicalSha256;
   try {
-    payment = makePayment(proposal, options);
+    payment = makePayment(proposal, {
+      nonce: options.nonce,
+      expiresAt: options.expiresAt,
+      validitySeconds: options.validitySeconds || DEFAULT_EXPIRY_SECONDS,
+      issuedAt: options.issuedAt || new Date()
+    });
     canonicalBytes = canonicalize(payment);
     canonicalSha256 = createHash('sha256').update(canonicalBytes).digest('hex');
     telemetry.stages.canonicalization = {
@@ -64,6 +76,7 @@ export async function processInvoicePayment({
       nonce: payment.nonce,
       domain: payment.domain,
       version: payment.version,
+      expiresAt: payment.expiresAt,
       canonicalSha256
     };
   } catch (err) {
@@ -81,7 +94,7 @@ export async function processInvoicePayment({
   const activeSigner = signer || (process.env.TIDE_MODE === 'real' ? new TideForsetiSigner() : new MockSigner());
   let signResult;
   try {
-    signResult = await activeSigner.signIfAllowed(payment, { approvals, executor });
+    signResult = await activeSigner.signIfAllowed(payment, { approvals, executor, options });
     if (!signResult.ok) {
       telemetry.stages.authorization = {
         status: 'DENIED',
@@ -129,11 +142,18 @@ export async function processInvoicePayment({
     policyId: envelope.authorization.policyId
   };
 
-  // Stage 5: Independent Bank Verification & Durable Nonce Check
+  // Stage 5: Independent Bank Verification & Durable Replay Check
+  // Issue D fix: bank independently resolves its trusted public key; NEVER trusts activeSigner.publicKey
+  const trustedBankKey = options.bankPublicKey || getBankPinnedPublicKey();
+  const bankStorage = options.useInMemoryBank
+    ? null
+    : (options.durablePath || process.env.LEASH_BANK_STORAGE_PATH || DEFAULT_DURABLE_STORAGE_PATH);
+
   const activeBank = bank || new MockBank({
-    pinnedPublicKey: activeSigner.publicKey,
+    pinnedPublicKey: trustedBankKey,
     pinnedKeyId: keyId,
-    pinnedPolicyId: policyId
+    pinnedPolicyId: policyId,
+    durablePath: bankStorage
   });
 
   const executionResult = activeBank.execute(envelope);
