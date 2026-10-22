@@ -1,0 +1,25 @@
+{
+  "status": "UNVERIFIED",
+  "officialUrl": "https://tide.org/unlocked/",
+  "checkedAtUtc": null,
+  "browserScreenshotOrArchive": null,
+  "submissionsStatus": "RESEARCH_SNAPSHOT_REPORTED_CLOSED_VERIFY",
+  "timezone": "UNKNOWN",
+  "deadline": "UNKNOWN",
+  "organizerExtensionProof": null,
+  "eligibilityExactText": null,
+  "requiredTideFeaturesExactText": null,
+  "officialJudgingPromptsExact": [
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "overviewMaxWords": "REPORTED_300_VERIFY",
+  "video": "REPORTED_2MIN_MP4_LT100MB_VERIFY",
+  "publicRepository": "REPORTED_REQUIRED_VERIFY",
+  "submissionFormUrl": null,
+  "canSubmitNow": null,
+  "verifiedBy": null
+}

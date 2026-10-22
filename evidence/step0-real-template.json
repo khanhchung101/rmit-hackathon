@@ -1,0 +1,20 @@
+{
+  "id": "G4-REAL-001",
+  "status": "UNVERIFIED",
+  "dateUtc": null,
+  "repoCommit": null,
+  "sdkVersion": null,
+  "contractSha512": null,
+  "officialDocsUrl": "https://docs.tide.org/Core-Concepts/forseti-engine",
+  "realmIdRedacted": null,
+  "exactPayloadSha256": null,
+  "actualTideSignatureSha256": null,
+  "signingPublicKeyFingerprint": null,
+  "externalVerifierCommand": null,
+  "deniedRequestTrace": null,
+  "humanApprovalDokenEvidenceRedacted": null,
+  "limitations": [
+    "No real Tide signing proof delivered"
+  ],
+  "reviewer": null
+}

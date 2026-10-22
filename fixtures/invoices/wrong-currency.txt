@@ -1,0 +1,5 @@
+Invoice ID: INV-CUR-005
+Payee ID: acme-labs
+Account: ACME-DEMO-001
+Amount Cents: 55000
+Currency: EUR

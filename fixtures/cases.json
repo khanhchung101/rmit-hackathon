@@ -1,0 +1,73 @@
+[
+  {
+    "id": "F01",
+    "invoice": "valid-low",
+    "approvedBy": [
+      "finance-a"
+    ],
+    "expected": "ALLOW"
+  },
+  {
+    "id": "F02",
+    "invoice": "valid-high",
+    "approvedBy": [
+      "finance-a",
+      "finance-b"
+    ],
+    "expected": "ALLOW"
+  },
+  {
+    "id": "F03",
+    "invoice": "malicious-prompt-injection",
+    "mode": "simulated-compromised-agent",
+    "approvedBy": [
+      "finance-a"
+    ],
+    "expected": "DENY"
+  },
+  {
+    "id": "F04",
+    "invoice": "valid-high",
+    "approvedBy": [
+      "finance-a"
+    ],
+    "expected": "DENY"
+  },
+  {
+    "id": "F05",
+    "invoice": "valid-low",
+    "approvedBy": [],
+    "expected": "DENY"
+  },
+  {
+    "id": "F06",
+    "invoice": "wrong-currency",
+    "approvedBy": [
+      "finance-a"
+    ],
+    "expected": "DENY"
+  },
+  {
+    "id": "F07",
+    "invoice": "malformed",
+    "approvedBy": [
+      "finance-a"
+    ],
+    "expected": "PARSE_ERROR"
+  },
+  {
+    "id": "F08",
+    "scenario": "bank_unsigned_bypass",
+    "expected": "DENY"
+  },
+  {
+    "id": "F09",
+    "scenario": "signature_tamper",
+    "expected": "DENY"
+  },
+  {
+    "id": "F10",
+    "scenario": "replay_same_nonce",
+    "expected": "DENY"
+  }
+]

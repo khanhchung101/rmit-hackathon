@@ -1,0 +1,10 @@
+[
+  {
+    "approverId": "finance-a",
+    "org": "finance"
+  },
+  {
+    "approverId": "finance-b",
+    "org": "finance"
+  }
+]

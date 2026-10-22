@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+node_modules/
+.DS_Store
+*.log
+coverage/
+.tmp/
+evidence/private/
+evidence/runtime/*
+!evidence/runtime/.gitkeep
+build/
+*.zip

@@ -1,0 +1,7 @@
+Invoice ID: INV-HIGH-002
+Payee ID: beta-supply
+Account: BETA-DEMO-002
+Amount Cents: 150000
+Currency: USD
+Expires At: 2030-01-01T00:00:00.000Z
+Note: Synthetic large supplier invoice.

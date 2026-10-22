@@ -1,0 +1,5 @@
+Invoice ID: INV-BAD-004
+Payee ID: acme-labs
+Account: ACME-DEMO-001
+Amount Cents: not-a-number
+Currency: USD

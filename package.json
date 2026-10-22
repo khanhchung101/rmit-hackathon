@@ -1,0 +1,17 @@
+{
+  "name": "leash-unlocked-agent-kit", "private": true, "version": "0.1.0",
+  "description": "Mock-only Leash baseline; real Tide integration fail-closed",
+  "type": "module", "engines": {"node": ">=20"},
+  "scripts": {
+    "preflight": "node scripts/preflight.mjs",
+    "validate:fixtures": "node scripts/verify-fixtures.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "security": "node src/securityScenarios.mjs",
+    "demo": "node src/demo.mjs",
+    "server": "node src/server.mjs",
+    "tide:probe": "node scripts/tide-probe.mjs",
+    "test:tide": "node scripts/tide-probe.mjs",
+    "demo:real": "node scripts/tide-probe.mjs",
+    "pack:evidence": "python3 scripts/pack-evidence.py"
+  }
+}

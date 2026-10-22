@@ -1,0 +1,347 @@
+{
+  "generatedAt": "2026-10-22",
+  "source": "Reconstructed executable kit based on 2026-10-22 Deep Research report; NOT byte-identical original 51-file ZIP",
+  "fileCountExcludingManifest": 85,
+  "files": [
+    {
+      "path": ".agents/skills/leash-unlocked/SKILL.md",
+      "sha256": "704578ccc89b79856e2f669a8a89238ceaa687f2f21074df513c2a5cc48b26dc"
+    },
+    {
+      "path": ".env.example",
+      "sha256": "92d2b20d55b9442b2954a3a5e60f6097016d188ef7a8730b3657c7a9b53e7975"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "2904f92b7e03159056b313fd74587ec9f0e249d33bfebbe37b125dce4eb3820c"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "baa1aa7d6308d1616142375cbba37b2deacde2905352251be7ee9773444549ec"
+    },
+    {
+      "path": ".mcp.json",
+      "sha256": "8c6660f888bae6d8e685b524887d3ca034e6b24584237e47410f326dd0ead2fc"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "ce9248c4e57bac88fff5c76739c5e0c986d55e8d2bf0c892e7ab65e41c16b750"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "sha256": "a4522683199d7de47c81d665130320f0db6a346a41da977d3e59864eb28b95bf"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "dabacabc5baf585ddb86ec6ab772dc479c40ba5616825f44a9e908c58df6cadb"
+    },
+    {
+      "path": "NOTICE.md",
+      "sha256": "6d89d46f61d0e0ddc65674dc147648fa610388964d1714b60154ea8d3194c558"
+    },
+    {
+      "path": "PLAN.md",
+      "sha256": "bf961a18e347aca3f18da462ec0ec5789949a0be75b1dd1b6d4b8898bc5ad434"
+    },
+    {
+      "path": "PROJECT_STATUS.md",
+      "sha256": "84ef31ad36f2381d757d118d1078717863cadcb7e5bfed5e28a6d055968f8762"
+    },
+    {
+      "path": "README.md",
+      "sha256": "75404b935997139175f31f5de5db4cd53c122e378bd03262b04a525f7a12bd3e"
+    },
+    {
+      "path": "STATUS.json",
+      "sha256": "aad78c9f2473043d6f4f6c173919dd467c6ca9d8815b850df11da1a8b7fbf361"
+    },
+    {
+      "path": "docs/ACCEPTANCE.md",
+      "sha256": "97a31d738e88496a6f98510ffa79d8a3d1deed6a627806678ce11ce9e98a5f0f"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "sha256": "64653d835d577c5c11314e0778ab3a4354d9f190c982a5a82d7ab49a4aebc89a"
+    },
+    {
+      "path": "docs/CHALLENGE_CHECKLIST.md",
+      "sha256": "e2ffbd5bb76725972ce7b9e5359c9b1da51af6a76104c6300600b27c2249d6a0"
+    },
+    {
+      "path": "docs/DATA_MODELS.md",
+      "sha256": "3148704b278fd8fa08c03b83018bd9618de061b8ae83c7b556cec524d6a47483"
+    },
+    {
+      "path": "docs/DECISION_LOG.md",
+      "sha256": "49981e001f3ae1f288e7107bacca60573163b4a54227a85bf9ba38283e2ae554"
+    },
+    {
+      "path": "docs/DEMO_STORYBOARD.md",
+      "sha256": "350a8375e5f96dcbb9b03626264f45a2c5c1767271090b0c021b7c21d084b0a9"
+    },
+    {
+      "path": "docs/FILE_MANIFEST.md",
+      "sha256": "6ed89f2e66bed826bd13ed1e4ba687bed46f742a7743f157c327fc374bffe355"
+    },
+    {
+      "path": "docs/POLICY_SPEC.md",
+      "sha256": "6364f80e9342e088c93ca200d831dc8b95977923ab4e7f6c31210fc3331dc18b"
+    },
+    {
+      "path": "docs/README_5_PROMPTS.md",
+      "sha256": "e58d577df27264afedcd97e5808c0227dbb2595f07162265ee721687dab31912"
+    },
+    {
+      "path": "docs/REAL_TIDE_INTEGRATION.md",
+      "sha256": "1cfbbce339e3e23613b2915c4d34cafec56c339a468ab294026e3a7dc8859cca"
+    },
+    {
+      "path": "docs/SECURITY_CLAIMS.md",
+      "sha256": "19077b64c80c34ec510e02e465c46ea24ddb5affa92b7821ff00184723184c93"
+    },
+    {
+      "path": "docs/SIGNATURE_PROTOCOL.md",
+      "sha256": "aa4a54497aff9755227880c4c9e1ae172bc2d7b71a4c4e8f83109b368cf5c0eb"
+    },
+    {
+      "path": "docs/SOURCES.md",
+      "sha256": "36866db3dd30e076ca8f5fbb13a5213d69dc9283fdc208f7743c91ea52f049a4"
+    },
+    {
+      "path": "docs/SUBMISSION_CHECKLIST.md",
+      "sha256": "0104e8d4030e505122cffa8803c4cc5f273260c17e6b59b3a93c831666969235"
+    },
+    {
+      "path": "docs/TEAM_TIMELINE.md",
+      "sha256": "0755b0a29062cd17b86b2b93de9b8feb65db79ad69fe6a46231b3148621547a7"
+    },
+    {
+      "path": "docs/THREAT_MODEL.md",
+      "sha256": "f094c44e15fe0e56a73b17d09b78fa0884d2c82e365f1bdc512f496132111fcb"
+    },
+    {
+      "path": "docs/TRUST_BOUNDARY.md",
+      "sha256": "cb66bcc4e348e8f5af25c53e4725b6f5955d0d799f5ba2c7db31ba3903dcabdb"
+    },
+    {
+      "path": "evidence/challenge-verification-template.json",
+      "sha256": "d637a47e0763d0747d976e9ee9feae93f45faa61d0389e90f301dd3f4cea8d5b"
+    },
+    {
+      "path": "evidence/local-mock-checks.md",
+      "sha256": "9451727d7287ce253b43981be313fb60043ff5f2653d8a122f7928199c4f787c"
+    },
+    {
+      "path": "evidence/runtime/.gitkeep",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "evidence/step0-real-template.json",
+      "sha256": "67f2fb49803c43287625af85d2ed17c0f7d2a2c9df4114d3fb94ac88f5510677"
+    },
+    {
+      "path": "fixtures/approvals/high-valid.json",
+      "sha256": "2227555f6e87a8527f029aa400d5be689ba68fde06efdb90a8e569d2ae673380"
+    },
+    {
+      "path": "fixtures/approvals/self-approval-invalid.json",
+      "sha256": "2227555f6e87a8527f029aa400d5be689ba68fde06efdb90a8e569d2ae673380"
+    },
+    {
+      "path": "fixtures/cases.json",
+      "sha256": "2a61c88d67a23e23bc191bee912046f6772846373b3dc574fcda000b9f31c96c"
+    },
+    {
+      "path": "fixtures/invoices/malformed.txt",
+      "sha256": "eac06d5c193a25518a60dc4dd9a7b71ff7bfcf9ebdb86b863d0bf6da655785d2"
+    },
+    {
+      "path": "fixtures/invoices/malicious-prompt-injection.txt",
+      "sha256": "4bda521692a9f0d1a6a2e2b03a941c499808d89a4dda0ce065b3dcb2b57e6ef8"
+    },
+    {
+      "path": "fixtures/invoices/valid-high.txt",
+      "sha256": "f5c4d3092e3680ec7affbfb3ac916ecc64ee9804c77cd0d5b1584624444cba7d"
+    },
+    {
+      "path": "fixtures/invoices/valid-low.txt",
+      "sha256": "96dadf3a476213f303bbf0f3c77b26de041cdacf81f23a3cc77811dbb83097df"
+    },
+    {
+      "path": "fixtures/invoices/wrong-currency.txt",
+      "sha256": "1c7ea02d50dfeeba3afbd124bc05de0e4aa2a82036bd85922a49c35c48111ba5"
+    },
+    {
+      "path": "fixtures/vendors.json",
+      "sha256": "6f9a690f32eb2ee691aacf5087e02cc8be16c3df4e71dc9e90c244905ba26265"
+    },
+    {
+      "path": "forseti/LeashPaymentPolicy.intent.cs",
+      "sha256": "8ae7ee2167dc56318169fcde64bbe3a94686704347c182af7115d7f14d4cb827"
+    },
+    {
+      "path": "model/prompts/invoice-agent-system.txt",
+      "sha256": "7600f1a0e13d22c7d00dfc51584a6a1b50f71bafee002c5de82444e1fdadc2b1"
+    },
+    {
+      "path": "model/schema/payment-proposal.schema.json",
+      "sha256": "448c34be0ac265df7cb1ad1cda5cd7934db9c704ff605f9dc94385025c5224f8"
+    },
+    {
+      "path": "package.json",
+      "sha256": "8d592416dfa0a4d2e65423a49bd6833800b764c8bb9264eb23aeb491930f3ca0"
+    },
+    {
+      "path": "public/index.html",
+      "sha256": "bf58881503f46d1e06086cd2288e4060c5eef71d829979286189d879191f56b1"
+    },
+    {
+      "path": "research/claims-evidence-matrix.md",
+      "sha256": "0893acdce25ee92c69f9ea3dc1fb1c670e9b5f8000ad02edb2b2f7d853a99770"
+    },
+    {
+      "path": "research/official-rules.md",
+      "sha256": "470df66db0eaca8f0ca41474449534eb3eff984d617b9ede6282b93a36b0bee4"
+    },
+    {
+      "path": "research/prior-art-gap.md",
+      "sha256": "97fa74986df5e320cc38ff060982c9131c4eed6601e2654138ea349108726960"
+    },
+    {
+      "path": "research/tide-capability-audit.md",
+      "sha256": "4457f4632b3a119484ec8e898203f4c51229c75caf5fada413291cfc2a5b81ef"
+    },
+    {
+      "path": "scripts/build-kit.py",
+      "sha256": "49c3cd18296e170660dacf6786e1232c4b151e5ad30e375de6e612e13a616944"
+    },
+    {
+      "path": "scripts/pack-evidence.py",
+      "sha256": "46ae7c73e44cef06e78207c6bc69c0535acc1537a99aad6983a4c35aff901590"
+    },
+    {
+      "path": "scripts/preflight.mjs",
+      "sha256": "4620e49f1f3481143cd18705e4dc35c0dd7ecb092dd39da09d6bb3ef8f494310"
+    },
+    {
+      "path": "scripts/tide-probe.mjs",
+      "sha256": "c907a07ec1e185ded3edcafbb1a1a2accaaa700a8a63e96135f763fda8a324ea"
+    },
+    {
+      "path": "scripts/verify-fixtures.mjs",
+      "sha256": "df42dc97662fcda8a6a77d0e6407d67ff4c3c951d514f24e5adf44d512cee628"
+    },
+    {
+      "path": "src/agent.mjs",
+      "sha256": "93042edba4db753f2255eb8ebb15a2ed6f1d7f6493b4fa26b1cf7367529f9336"
+    },
+    {
+      "path": "src/bank.mjs",
+      "sha256": "fefec591d56fbe9bd7001fe9fff7a9bb576a007ca738283451dbf5340533fc3f"
+    },
+    {
+      "path": "src/canonical.mjs",
+      "sha256": "0a5f00466e07cdd151761c78adc4caea0b431aff202dca3b37a13715c33e78d8"
+    },
+    {
+      "path": "src/demo.mjs",
+      "sha256": "1479b23258897771284f84b3e9c9c5764f61434974799b81eda4ebc082103ef0"
+    },
+    {
+      "path": "src/parser.mjs",
+      "sha256": "0734b7f31ca06a8392593f435b8f9595ba3643331728b47bd14f83f211856359"
+    },
+    {
+      "path": "src/policy.mjs",
+      "sha256": "d2b57bc53bbac66fac36bf85439c1ebed5f132912f49a5530dc55d2a2c2f1554"
+    },
+    {
+      "path": "src/securityScenarios.mjs",
+      "sha256": "3cfc392b0755333a5f0b221c584f3eff9efcef58d5a43006d937fac29ef8c5be"
+    },
+    {
+      "path": "src/server.mjs",
+      "sha256": "68c19f52e927966e1a1447671a93b5fbb96aac71230916d937bdf5390f324c32"
+    },
+    {
+      "path": "src/signing/mockSigner.mjs",
+      "sha256": "c15dc21b5f70519c54741a7fdb4837500496037e6f4c00fd798598edb241500a"
+    },
+    {
+      "path": "src/signing/tideForsetiSigner.mjs",
+      "sha256": "23285227121b2612b9e52363aa0a96f77a6a797b43b838f473427cd62609598b"
+    },
+    {
+      "path": "step0/DATA_MODEL_DECISIONS.md",
+      "sha256": "45ebc29e0b44e6c5d6635334d8d81995be65f528c8fcefcd1e6e9f54a292bc23"
+    },
+    {
+      "path": "step0/DECISIONS.md",
+      "sha256": "8f8268bbdf7750d5af6abd16fb760006db01c8224b36c3e77cec34009e2581d3"
+    },
+    {
+      "path": "step0/FEASIBILITY_SPIKE.md",
+      "sha256": "816c3b58e139df399711159253ee27f10dc8c776f76c7e033bc990b19000b1e7"
+    },
+    {
+      "path": "step0/LLM_MODEL_DECISIONS.md",
+      "sha256": "43963c6f71cb51c49ece6799de9befc9d4247e26b209d522f53657e25975160a"
+    },
+    {
+      "path": "step0/OPEN_QUESTIONS.md",
+      "sha256": "5b737b40098c87ec7dcedf2f8d7fa7f32665902f8167c73d5252b56ba779655b"
+    },
+    {
+      "path": "step0/READINESS_CHECKLIST.md",
+      "sha256": "b8101cb00cdc106f4f778a5e8ce55044f7caba34ecd5e1849a505f486e7100c9"
+    },
+    {
+      "path": "step0/THREAT_MODEL.md",
+      "sha256": "5d73022cc65166a2cc1cff1b0bb7f7001be36fd25d01a6e68b25c8947d6ee103"
+    },
+    {
+      "path": "tasks/backlog.csv",
+      "sha256": "777ad15a7a8ee9e83639c6acdefac076491203100e8576b70bc90fc425512279"
+    },
+    {
+      "path": "tasks/backlog.md",
+      "sha256": "1cfa2af768e83cbd269834fbca6ef3cfffcff77b3adfe91dcf4593dd088fdac0"
+    },
+    {
+      "path": "tasks/milestones.md",
+      "sha256": "e376334510aaffc07371078a897ead6c84a673ed8fce7e65888e212e7e4f7d28"
+    },
+    {
+      "path": "tests/SECURITY_TEST_MATRIX.md",
+      "sha256": "e2f24ea64e9f5e80ac0716b2ff37d321beeb6563dd9c1ff0875220aa1019f80a"
+    },
+    {
+      "path": "tests/negative.test.mjs",
+      "sha256": "5d75699623743afabbdb547b2d993baecb16a681cd26aa3d6d8da7bf789de634"
+    },
+    {
+      "path": "tests/policy.test.mjs",
+      "sha256": "aea0d9a4816320e9a190861a88a7ec46c82c07c7e486368f615182c159ace956"
+    },
+    {
+      "path": "tests/t1.test.mjs",
+      "sha256": "bc3ed21e3cf26ac4712d3c488ace9553d8c8f0943f6709d727c020927e102104"
+    },
+    {
+      "path": "tests/t2.test.mjs",
+      "sha256": "ac3eb41461d637bf03c16a37e39032e3d6df5b19584ee548fa5e4f2dcd7b4291"
+    },
+    {
+      "path": "tests/t3.test.mjs",
+      "sha256": "dcd7780224011684d8257cfd0935f022e39ca69dc1dcad755660a6dbaeb4d422"
+    },
+    {
+      "path": "tests/t4.test.mjs",
+      "sha256": "0ec6408234de5669a3f0f0fc2630b9f537f018879e64cedaebe0649e2be4d2f8"
+    },
+    {
+      "path": "tests/t5.test.mjs",
+      "sha256": "e372b87f2871c8782c3bd3cf282c4abd0b491a75e15a7fe7e6906527f573baaf"
+    }
+  ]
+}
