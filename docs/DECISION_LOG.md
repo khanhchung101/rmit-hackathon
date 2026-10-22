@@ -22,3 +22,11 @@
   policy ID cannot be finalized before L-008/G4 live evidence.
 - Release decision remains fail-closed: no challenge-complete claim if G4/G5
   miss the submission window.
+
+# 2026-10-22 — Single presentation source
+
+- Added `docs/CHALLENGE_WRITEUP.md` to consolidate the challenge requirements,
+  backend-versus-independent-authorization argument, Tide role, end-to-end flow,
+  outputs, test story and current limitations.
+- The write-up is a narrative layer, not a replacement for machine status,
+  security claims or runtime evidence.

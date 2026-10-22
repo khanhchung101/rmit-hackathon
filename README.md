@@ -2,6 +2,9 @@
 
 > **Security PoC, synthetic data only.** AI proposes; Tide/Forseti must independently authorize; mock bank verifies a cryptographic proof on the exact payment. The real Tide path is **NOT YET IMPLEMENTED** and **fails closed** until Step 0 technical proof. Local green tests prove only the mock protocol semantics.
 
+For the complete problem → argument → solution → demo narrative, start with
+[`docs/CHALLENGE_WRITEUP.md`](docs/CHALLENGE_WRITEUP.md).
+
 ## Start here
 
 ```bash
@@ -33,12 +36,12 @@ No `npm install` required for the local baseline (built-in Node libraries only).
 - Test-only signer is isolated in `src/signing/mockSigner.mjs`; real mode is `UNIMPLEMENTED` and throws.
 - No real banks, credentials, personal invoices, fraud-detection promise, or production readiness claim.
 
-## Project status (on delivery)
+## Project status
 
-- Step 0: **IN PROGRESS**; Tide/Forseti SPIKE: **BLOCKED/UNVERIFIED**.
-- Local mock tests: included; run on your environment.
-- Challenge status: Deep Research snapshot on 2026-10-22 reported **“Submissions have closed”**; this must be rechecked with organizer before investing in a submission.
-- Do **not** present green mock tests as real Tide evidence.
+- Step 0: **BLOCKED ON EXTERNAL PREREQUISITES**; real Tide/Forseti G3–G5 are not complete.
+- Local evidence: 12 unit tests, 7 fixture cases and T1–T5 mock scenarios pass.
+- At the 2026-10-22 06:27 UTC check, the official form was reachable until the published Vietnam deadline of 18:00 ICT; team eligibility remains unverified.
+- Real mode fails closed with `REAL_TIDE_NOT_WIRED`. Do **not** present green mock tests as real Tide evidence.
 
 ## Useful references
 
