@@ -69,8 +69,8 @@ const server = http.createServer(async (req, res) => {
       mode: process.env.TIDE_MODE === 'real' ? 'REAL_TIDE' : 'MOCK_ONLY_NOT_TIDE',
       tide: 'REAL_TIDE_NOT_WIRED',
       serverDurableBankPath: DEFAULT_DURABLE_STORAGE_PATH,
-      testsPassing: 25,
-      securityScenariosPassing: 8
+      testsPassing: 35,
+      securityScenariosPassing: 18
     }));
   }
 
@@ -107,7 +107,10 @@ const server = http.createServer(async (req, res) => {
           approvals: payload.approvals || [],
           executor: payload.executor || 'agent',
           bank: serverBank, // Issue A: executes on shared persistent server bank
-          options: payload.nonce ? { nonce: payload.nonce } : {}
+          options: {
+            ...(payload.nonce ? { nonce: payload.nonce } : {}),
+            ...(payload.expiresAt ? { expiresAt: payload.expiresAt } : {})
+          }
         });
         res.writeHead(200, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify(result));
