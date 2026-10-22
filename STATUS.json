@@ -56,5 +56,14 @@
   "noGoConditions": [
     "official submission permanently closed without extension",
     "no usable real Tide policy-gated signing/verifier path"
-  ]
+  ],
+  "finalQaAutomation": {
+    "scope": "OFFLINE_LOCAL_MOCK_ONLY",
+    "subchecksPass": 13,
+    "subchecksFail": 7,
+    "findings": "docs/FINAL_QA_FINDINGS.md",
+    "runId": "2026-10-22T08-07-12-839Z-e934759b",
+    "realEvidence": "NOT_EXECUTED",
+    "releaseApproved": false
+  }
 }

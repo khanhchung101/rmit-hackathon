@@ -56,6 +56,20 @@
 - Finalized official `README.md` embedding the 5 required hackathon prompts (235 words, well under 300-word limit).
 - Verified clean evidence pack generation (`scripts/pack-evidence.py` bundle created).
 
+# 2026-10-22 — Pipeline orchestration, real Tide client scaffolding, and interactive harness
+
+- Implemented 5-stage payment pipeline orchestrator in `src/pipeline.mjs` with stage-by-stage audit telemetry (`tests/pipeline.test.mjs`), passing 25/25 total unit tests.
+- Wired real Tide client scaffolding in `src/signing/tideForsetiSigner.mjs` accepting environment configuration while enforcing fail-closed `REAL_TIDE_NOT_WIRED` without mock fallback.
+- Upgraded interactive test harness in `src/server.mjs` and `public/index.html` to visualize all 5 stages with live fixture and prompt injection toggles.
+- Finalized official `README.md` embedding the 5 required hackathon prompts (235 words, well under 300-word limit).
+- Verified clean evidence pack generation (`scripts/pack-evidence.py` bundle created).
+
+## 2026-10-22 — D-QA-AUTO: Offline final QA automation
+
+- Added `scripts/final-qa.mjs` and test-only receiver worker; loopback HTTP only, no live Tide/paid provider calls, credentials stripped from child real-mode check.
+- Captured stable source manifest; baseline plus adversarial local checks: 13 PASS / 7 FAIL (six parent cases). See `docs/FINAL_QA_FINDINGS.md`; evidence under `evidence/private/final-qa/`.
+- CSV updates preserve manual decisions; local success never promotes REAL case to PASS. No product implementation fixes or gate promotions.
+
 # 2026-10-22 — Security Audit Remediation (Issues A–D, Scenarios T9–T18)
 
 - **Issue A (HTTP & Concurrent Replay Protection):** Replaced per-request ephemeral bank instances with a shared durable `MockBank` instance backed by POSIX atomic file locking (`nonces.jsonl`). Multi-process and concurrent identical requests serialize safely, rejecting repeats with `REPLAY_NONCE` (verified via test scenario T9).

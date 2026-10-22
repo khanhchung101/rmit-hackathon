@@ -31,3 +31,4 @@ L-029,P0,Security,Step4,"Enforce cryptographic approver proof validation and rej
 L-030,P1,Security,Step3,"Harmonize payment expiration to 900s matching Forseti C# spec (Issue C)",L-011,"Capped at 900s; clock skew handled; expired payloads rejected",2h,DONE,src/canonical.mjs
 L-031,P0,Security,Step5,"Decouple bank verification key from pipeline signer trust anchor (Issue D)",L-015,"Independent trust anchor pinning; rogue keys rejected",2h,DONE,src/trustAnchor.mjs
 L-032,P0,QA,Step6,"Expand security scenarios to T1-T18 covering concurrency, proofs and boundaries",L-028;L-029;L-030;L-031,"18/18 security scenarios passing in test suite and CLI runner",3h,DONE,src/securityScenarios.mjs
+QA-AUTO,P0,Lan,FinalQA,"Build and execute offline final QA runner",,"Local evidence and results generated; real/manual cases not promoted",,DONE,docs/FINAL_QA_FINDINGS.md

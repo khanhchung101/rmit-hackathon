@@ -1,8 +1,9 @@
-{
+﻿{
   "name": "leash-unlocked-agent-kit", "private": true, "version": "0.1.0",
   "description": "Mock-only Leash baseline; real Tide integration fail-closed",
   "type": "module", "engines": {"node": ">=20"},
   "scripts": {
+    "qa:final": "node scripts/final-qa.mjs",
     "preflight": "node scripts/preflight.mjs",
     "validate:fixtures": "node scripts/verify-fixtures.mjs",
     "validate:contracts": "node scripts/verify-contracts.mjs",
@@ -16,3 +17,4 @@
     "pack:evidence": "python3 scripts/pack-evidence.py"
   }
 }
+
