@@ -43,10 +43,10 @@ export function runMockDemo(){
  const bypass=bank.execute(hostile,null);
 
  // 5. Tampered payment: attacker modifies amount after signing
- const tampered=bank.execute({...valid,amountMinor:999999},good.signature);
+ const tampered=bank.execute(buildBankEnvelope({...valid,amountMinor:999999},good,{keyId:'demo-pinned-key-01',policyId:'leash.payment.v1'}));
 
  // 6. Replay attack: replaying previously executed valid payment
- const replay=bank.execute(valid,good.signature);
+ const replay=bank.execute(buildBankEnvelope(valid,good,{keyId:'demo-pinned-key-01',policyId:'leash.payment.v1'}));
 
  // 7. Trust anchor substitution (T8): caller provides untrusted keyId
  const untrustedKey=bank.execute(buildBankEnvelope(valid,good,{keyId:'evil-attacker-key',policyId:'leash.payment.v1'}));
