@@ -27,3 +27,11 @@ One exact domain-separated Leash payment payload can be inspected by a *deployed
 ## Known assumptions to verify
 
 `ValidateApprovers` may apply only to **EXPLICIT** policies and `ValidateExecutor` to **PRIVATE** policies (official Forseti documentation). Do not assume both methods fire in one request by default. Check doken/session binding, signature scope, approved approver list, request metadata authenticity, non-malleable payload, contract parameters, realm governance and SDK/current product availability.
+
+## Execution result — 2026-10-22
+
+- Official docs, Tide npm packages, KeyleSSH and Raziel MCP 1.9.33 were inspected; package/API versions are in `evidence/runtime/tide-sdk-audit-2026-10-22.json`.
+- `forseti/LeashPaymentPolicy.cs` is a fail-closed contract candidate using current documented context shapes. Raziel's sandbox and structural scans pass, but compilation is blocked because no .NET SDK is installed and the SDK container pull did not complete.
+- Realm/bootstrap and deployment were not attempted: they require a participant-provided licence email, explicit Tide Terms acceptance, human account linking, and Tide-team deployment of the custom signing contract.
+- No signature, Tide VVK, approval doken, deployed contract ID or external verifier trace exists. **G4 remains BLOCKED.**
+- The intended `DynamicApprovedCustom` design still needs two live proofs: `ctx.DynamicData` must be the exact bytes signed, and the approval card must display data cryptographically consistent with those bytes. Raziel's EXPLICIT custom-model GAP-072 is also not network-verified.

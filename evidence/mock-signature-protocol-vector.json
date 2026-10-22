@@ -1,0 +1,9 @@
+{
+  "id": "MOCK-PROTOCOL-V1-001",
+  "classification": "MOCK_ONLY_NOT_TIDE",
+  "protocol": "leash.pay.v1",
+  "encoding": "strict fixed-order JSON encoded as UTF-8",
+  "utf8": "{\"amountMinor\":55000,\"currency\":\"USD\",\"domain\":\"leash.payment.v1\",\"expiresAt\":\"2030-01-01T00:00:00.000Z\",\"invoiceId\":\"INV-LOW-001\",\"nonce\":\"nonce-low-001\",\"payeeAccount\":\"ACME-DEMO-001\",\"payeeId\":\"acme-labs\",\"version\":\"leash.pay.v1\"}",
+  "sha256": "648693c9f2a3e4f0684ead1e7af690763f8dfb80224636e2f68e46f917b5656f",
+  "limitation": "This is the local mock byte protocol. It does not establish the bytes signed by Tide ORKs."
+}

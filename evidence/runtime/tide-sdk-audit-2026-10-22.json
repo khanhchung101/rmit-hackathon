@@ -1,0 +1,57 @@
+{
+  "id": "TIDE-SDK-AUDIT-2026-10-22",
+  "dateUtc": "2026-10-22",
+  "status": "BLOCKED_REAL_RUNTIME",
+  "officialSources": [
+    "https://docs.tide.org/Core-Concepts/forseti-engine",
+    "https://docs.tide.org/get-started/Tidecloak%20Quickstart",
+    "https://docs.tide.org/Core-Concepts/iga-workflow",
+    "https://docs.tide.org/ai-agent-pack",
+    "https://github.com/tide-foundation/raziel-mcp",
+    "https://github.com/tide-foundation/keylessh-m2"
+  ],
+  "packages": {
+    "@tidecloak/js": "0.14.41",
+    "heimdall-tide": "0.14.41",
+    "asgard-tide": "0.14.20",
+    "@tideorg/mcp": "1.9.33"
+  },
+  "sourceCommits": {
+    "raziel-mcp": "b0e1e499f80ffefac01c50bc73aff882de4500ec",
+    "keylessh-m2": "9abe5f4ef92a3cb0bde84c63f3385abf656b28be"
+  },
+  "razielMcp": {
+    "queriedViaStdio": true,
+    "serverVersion": "1.9.33",
+    "selectedScenario": "policy-governed-signing",
+    "deploymentConstraint": "Custom Forseti signing contracts are experimental and deployed by the Tide team; self-service upload instructions are intentionally withheld."
+  },
+  "verifiedApiShape": [
+    "Policy:1 uses createTideRequest then executeSignRequest in a browser-authenticated TideCloak session",
+    "PolicySignRequest is exported by heimdall-tide",
+    "BasicCustomRequest and dynamic custom request classes are exported by asgard-tide",
+    "ValidateData always runs; ValidateApprovers is EXPLICIT-only; ValidateExecutor is PRIVATE-only",
+    "Tide returns 64-byte Ed25519 signatures when the real flow succeeds",
+    "The verification VVK is the Ed25519 key embedded in exported TideCloak adapter jwk.keys, not the public OIDC RSA JWKS"
+  ],
+  "blockingFindings": [
+    "No licensed TideCloak realm, linked admin, browser doken, committed policy or signed_policy_data is present.",
+    "Realm bootstrap requires a user-supplied licence email, explicit acceptance of Tide terms and human browser enrollment.",
+    "Custom signing contract deployment requires Tide team review/deployment.",
+    "Raziel GAP-072 says the EXPLICIT custom-model double-wrapped identity needed for ValidateApprovers is predicted but not yet network-verified.",
+    "No Tide VVK or returned signature is available for independent exact-byte verification.",
+    ".NET SDK is absent locally; two attempts to pull the official .NET 8 SDK container did not complete (first connection reset, second stalled and was stopped). The candidate is not compile-verified.",
+    "The proposed DynamicApproved custom flow must prove that the bytes in ctx.DynamicData are exactly the bytes covered by the returned signature and that the approval card cannot display metadata inconsistent with them."
+  ],
+  "contractCandidate": {
+    "path": "forseti/LeashPaymentPolicy.cs",
+    "sha512Lowercase": "9a0750d878755695e9589ab54d0f6cf31c443d48484d248d6c058534411d8028d7e909b2873383118ec11579a64369e3b9687dfe7dc635ad52ab01845215af4f",
+    "contractIdUppercaseSha512": "9A0750D878755695E9589AB54D0F6CF31C443D48484D248D6C058534411D8028D7E909B2873383118EC11579A64369E3B9687DFE7DC635AD52AB01845215AF4F",
+    "sandboxScan": "PASS_NO_BLOCKED_CALL_SITES",
+    "structureScan": "PASS_HAS_IAccessPolicy_AND_NO_PolicyDecision_Approve",
+    "compileStatus": "BLOCKED_TOOLCHAIN_DOWNLOAD",
+    "deploymentStatus": "NOT_DEPLOYED"
+  },
+  "g4Decision": "BLOCKED",
+  "reviewer": "Codex"
+}

@@ -101,6 +101,10 @@ Không cần training, RAG, vector DB, OCR hoặc cloud deployment cho MVP. SDK 
 ## Chạy baseline local
 
 Yêu cầu Node.js ≥20 và npm. Baseline dùng built-in libraries, không cần `npm install`. Docker/realm/license/network là prerequisites đường Tide thực; có Docker CLI chưa chứng minh realm hoặc daemon hoạt động.
+For the complete problem → argument → solution → demo narrative, start with
+[`docs/CHALLENGE_WRITEUP.md`](docs/CHALLENGE_WRITEUP.md).
+
+## Start here
 
 ```bash
 node --version

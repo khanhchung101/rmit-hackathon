@@ -1,0 +1,20 @@
+{
+  "id": "STEP0-BASELINE-2026-10-22",
+  "dateUtc": "2026-10-22",
+  "repoCommit": "265e9620ed2e39c575b4715b76fa1b4a326b0d11",
+  "environment": {
+    "node": "20.19.6",
+    "git": "2.43.0",
+    "docker": "29.6.2",
+    "dockerCompose": "5.3.1"
+  },
+  "commands": [
+    {"command": "npm run preflight", "exitCode": 0, "outputSha256": "953252841efc15af74dc9c2ffa8194de0bf1dec487b2262780670f6eb1065d01", "result": "PASS with explicit G1/G4 blockers"},
+    {"command": "npm test", "exitCode": 0, "outputSha256": "df1ec6e9a93eaed9a835d0f5d2240785d9adfc4ecfbedad6ce32886766b09252", "result": "12/12 MOCK tests passed"},
+    {"command": "npm run security", "exitCode": 0, "outputSha256": "31ef071cc6c09d9060b65516cde22e8765e50d4dd68631ced4497c3977b853d1", "result": "T1-T5 passed in MOCK mode only"},
+    {"command": "npm run tide:probe", "exitCode": 3, "outputSha256": "bf35390f04505a97a01f7e573486a85f6524781dc9a90ef528dc2e8854e9a1bd", "result": "BLOCKED G4: REAL_TIDE_NOT_WIRED"},
+    {"command": "npm run validate:fixtures", "exitCode": 0, "outputSha256": "f8a8848ac0823451ac7c4bea35f87ef701bc16fd7524abf72126eedd07a21977", "result": "7/7 invoice fixture cases passed; F08-F10 are scenario cases outside this script"}
+  ],
+  "classification": "MOCK_ONLY_NOT_TIDE",
+  "reviewer": "Codex"
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leash.invalid/schema/bank-execution-v1.schema.json",
+  "title": "Leash independent bank execution envelope v1",
+  "description": "Transport contract. The Tide signature scheme and key provenance stay provisional until G4.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["payment", "authorization"],
+  "properties": {
+    "payment": {"$ref": "payment-instruction-v1.schema.json"},
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "signatureBase64", "keyId", "policyId"],
+      "properties": {
+        "mode": {"enum": ["MOCK_ONLY", "REAL_TIDE"]},
+        "signatureBase64": {"type": "string", "pattern": "^[A-Za-z0-9+/]+={0,2}$", "maxLength": 256},
+        "keyId": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$", "maxLength": 256},
+        "policyId": {"type": "string", "pattern": "^[A-Za-z0-9._:<>()-]+$", "maxLength": 256}
+      }
+    }
+  }
+}
+

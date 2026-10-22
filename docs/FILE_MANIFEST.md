@@ -10,6 +10,7 @@
 | `src/signing/mockSigner.mjs` | Local Ed25519 mock signature with isolated test key | npm run security | Confused with Tide threshold crypto |
 | `src/signing/tideForsetiSigner.mjs` | Real Tide adapter, fail-closed | npm run tide:probe → BLOCKED | False G4 |
 | `src/bank.mjs` | Independent verifier and nonce store | tests T2,T4,T5 | Trusting supplied key / replay |
+| `docs/CHALLENGE_WRITEUP.md` | Single presentation source: challenge, problem, argument, solution, I/O, demo and status | Documentation review | Claims drifting beyond evidence |
 | `src/demo.mjs` | User scenario terminal demo | npm run demo | Claims real Tide |
 | `src/securityScenarios.mjs` | T1–T5 mock regression | npm run security | Test-only green shown as proof |
 | `src/server.mjs`, `public/index.html` | Minimal local demo API/UI | npm run server | UI-only controls |

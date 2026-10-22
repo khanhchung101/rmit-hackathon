@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://leash.invalid/schema/payment-instruction-v1.schema.json",
+  "title": "Leash Payment Instruction v1",
+  "description": "MOCK protocol schema; real Tide signed-byte binding remains gated by G4.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "amountMinor",
+    "currency",
+    "domain",
+    "expiresAt",
+    "invoiceId",
+    "nonce",
+    "payeeAccount",
+    "payeeId",
+    "version"
+  ],
+  "properties": {
+    "amountMinor": {"type": "integer", "minimum": 1, "maximum": 9007199254740991},
+    "currency": {"const": "USD"},
+    "domain": {"const": "leash.payment.v1"},
+    "expiresAt": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"},
+    "invoiceId": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$", "maxLength": 128},
+    "nonce": {"type": "string", "pattern": "^[A-Za-z0-9._-]{5,128}$"},
+    "payeeAccount": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$", "maxLength": 128},
+    "payeeId": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$", "maxLength": 128},
+    "version": {"const": "leash.pay.v1"}
+  }
+}
+
