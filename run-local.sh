@@ -12,9 +12,12 @@ echo "================================================================="
 echo "[1/3] Checking TideCloak dev container..."
 if docker ps --filter "name=leash-tidecloak" --filter "status=running" | grep -q "leash-tidecloak"; then
   echo "  ✓ TideCloak container is already running at http://127.0.0.1:8180"
+elif docker ps -a --filter "name=leash-tidecloak" | grep -q "leash-tidecloak"; then
+  echo "  Starting existing TideCloak container (leash-tidecloak)..."
+  docker start leash-tidecloak
+  echo "  ✓ TideCloak container started."
 else
-  echo "  Starting TideCloak container (leash-tidecloak) on port 8180..."
-  docker rm -f leash-tidecloak 2>/dev/null || true
+  echo "  Creating and starting TideCloak container (leash-tidecloak) on port 8180..."
   docker run \
     --name leash-tidecloak \
     -d \
