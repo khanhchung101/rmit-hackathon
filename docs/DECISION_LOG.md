@@ -55,3 +55,9 @@
 - Upgraded interactive test harness in `src/server.mjs` and `public/index.html` to visualize all 5 stages with live fixture and prompt injection toggles.
 - Finalized official `README.md` embedding the 5 required hackathon prompts (235 words, well under 300-word limit).
 - Verified clean evidence pack generation (`scripts/pack-evidence.py` bundle created).
+
+## 2026-10-22 — D-QA-AUTO: Offline final QA automation
+
+- Added `scripts/final-qa.mjs` and test-only receiver worker; loopback HTTP only, no live Tide/paid provider calls, credentials stripped from child real-mode check.
+- Captured stable source manifest; baseline plus adversarial local checks: 13 PASS / 7 FAIL (six parent cases). See `docs/FINAL_QA_FINDINGS.md`; evidence under `evidence/private/final-qa/`.
+- CSV updates preserve manual decisions; local success never promotes REAL case to PASS. No product implementation fixes or gate promotions.

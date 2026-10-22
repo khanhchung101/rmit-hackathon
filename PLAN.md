@@ -1,5 +1,8 @@
 ﻿# PLAN — Ba luồng kỹ thuật song song cho Leash
 
+> **Cập nhật vai trò:** đồng đội phụ trách implementation; Lân phụ trách final QA trước nộp theo [FINAL_QA_TESTCASES.md](docs/FINAL_QA_TESTCASES.md) và [results sheet](docs/FINAL_QA_RESULTS.csv). Phân công implementation bên dưới là kế hoạch lịch sử, không còn là task mặc định của Lân.
+
+
 ## 1. Mục tiêu và timebox
 
 **Đội:** Khánh — SE; Phát — AI; Lân — SE.
@@ -157,3 +160,4 @@ Baseline commands: `npm run preflight`, `npm test`, `npm run validate:fixtures`,
 Giữ gate IDs của repo: **G1 rules**, **G2 local baseline**, **G3 Tide environment**, **G4 real policy/signing/independent verification**, **G5 real security tests**, **G6 submission**. G6 nằm ngoài technical sprint này, vẫn pending cho tới khi toàn bộ submission requirements hoàn thành. Theo dõi riêng ở [submission checklist](docs/SUBMISSION_CHECKLIST.md) và [challenge checklist](docs/CHALLENGE_CHECKLIST.md).
 
 Mỗi checkpoint chỉ báo: **artifact đã sẵn sàng → command/evidence → blocker → ai cần gì**. Chỉ cập nhật PASS khi đã chạy đúng đường thực tế; không thay đổi implementation scope để che requirement chưa đạt.
+

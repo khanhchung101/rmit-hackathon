@@ -15,3 +15,5 @@
 **Next externally owned actions:** establish participant eligibility; provide Tide licence email and explicit Terms decision; select local versus hosted realm; complete human account linking; ask Tide to review/deploy the custom signing contract; then capture real allowed/denied signing traces and independently verify the exact bytes with the realm VVK.
 
 **Important:** Mock green cannot be used as evidence that Tide enforced policy. This kit includes no real-world financial data or live payment functionality.
+
+**Final QA automation — 22/10/2026:** offline runner executed 20 checks: 13 PASS / 7 FAIL, mapped to six failing QA cases. Missing/null approval and HTTP replay accepted locally; strict envelope/mode/corruption gaps reproduced. See `docs/FINAL_QA_FINDINGS.md`. This supersedes any broad interpretation of local regression completeness above. Baseline unit tests still pass; G3/G4/G5 are not promoted. No live Tide request or submission performed.

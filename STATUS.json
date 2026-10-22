@@ -1,56 +1,65 @@
-{
-  "project": "Leash — Tide UNLOCKED security PoC",
-  "asOf": "2026-10-22T07:05:00Z",
-  "overall": "STEP0_BLOCKED_EXTERNAL",
-  "mode": "MOCK_ONLY",
-  "submissionStatus": "OPEN_AT_2026-10-22T06:27:36Z_UNTIL_2026-10-22T11:00:00Z_TEAM_ELIGIBILITY_UNVERIFIED",
-  "claims": {
-    "tidePolicyGatedSigning": "NOT_IMPLEMENTED",
-    "tideIndependentBankVerification": "NOT_IMPLEMENTED",
-    "realHumanApproval": "NOT_IMPLEMENTED",
-    "mockSecurityRegression": "PASS_25_UNIT_7_FIXTURES_8_SECURITY",
-    "localContractConsistency": "PASS_9_FIELDS_FIXED_VECTOR_ENVELOPE_VALIDATED",
-    "pipelineOrchestration": "PASS_5_STAGES_AUDIT_TELEMETRY",
-    "currentTideSdkAudit": "PASS_DISCOVERY_ONLY_NOT_RUNTIME"
-  },
-  "gates": {
-    "G1": {
-      "state": "PARTIAL",
-      "reason": "Official route, deadlines, prompts and form verified live; team/RMIT eligibility and rendered screenshot remain unverified"
-    },
-    "G2": {
-      "state": "PASS",
-      "reason": "Local Node 20.19.6 tests: 25 unit passed, 7 fixtures passed, T1-T8 mock scenarios passed on 2026-10-22; NOT Tide evidence"
-    },
-    "G3": {
-      "state": "BLOCKED",
-      "reason": "Docker is available, but no licensed Tide realm, user-provided licence email/terms acceptance, linked admin, doken or browser enrollment exists"
-    },
-    "G4": {
-      "state": "BLOCKED",
-      "reason": "Fail-closed adapter; custom signing contract requires Tide-team deployment; no realm/policy/doken/VVK/signature; Raziel EXPLICIT custom-model GAP-072 remains network-unverified"
-    },
-    "G5": {
-      "state": "BLOCKED",
-      "reason": "Real Tide path tests cannot run before G4"
-    },
-    "G6": {
-      "state": "BLOCKED",
-      "reason": "Current submission and mandatory artifact verification required"
-    }
-  },
-  "nextTasks": [
-    "L-003",
-    "L-007",
-    "L-008",
-    "L-013",
-    "L-014",
-    "L-018",
-    "L-020",
-    "L-021"
-  ],
-  "noGoConditions": [
-    "official submission permanently closed without extension",
-    "no usable real Tide policy-gated signing/verifier path"
-  ]
+﻿{
+    "project":  "Leash — Tide UNLOCKED security PoC",
+    "asOf":  "2026-10-22T07:05:00Z",
+    "overall":  "STEP0_BLOCKED_EXTERNAL",
+    "mode":  "MOCK_ONLY",
+    "submissionStatus":  "OPEN_AT_2026-10-22T06:27:36Z_UNTIL_2026-10-22T11:00:00Z_TEAM_ELIGIBILITY_UNVERIFIED",
+    "claims":  {
+                   "tidePolicyGatedSigning":  "NOT_IMPLEMENTED",
+                   "tideIndependentBankVerification":  "NOT_IMPLEMENTED",
+                   "realHumanApproval":  "NOT_IMPLEMENTED",
+                   "mockSecurityRegression":  "PASS_25_UNIT_7_FIXTURES_8_SECURITY",
+                   "localContractConsistency":  "PASS_9_FIELDS_FIXED_VECTOR_ENVELOPE_VALIDATED",
+                   "pipelineOrchestration":  "PASS_5_STAGES_AUDIT_TELEMETRY",
+                   "currentTideSdkAudit":  "PASS_DISCOVERY_ONLY_NOT_RUNTIME"
+               },
+    "gates":  {
+                  "G1":  {
+                             "state":  "PARTIAL",
+                             "reason":  "Official route, deadlines, prompts and form verified live; team/RMIT eligibility and rendered screenshot remain unverified"
+                         },
+                  "G2":  {
+                             "state":  "PASS",
+                             "reason":  "Local Node 20.19.6 tests: 25 unit passed, 7 fixtures passed, T1-T8 mock scenarios passed on 2026-10-22; NOT Tide evidence"
+                         },
+                  "G3":  {
+                             "state":  "BLOCKED",
+                             "reason":  "Docker is available, but no licensed Tide realm, user-provided licence email/terms acceptance, linked admin, doken or browser enrollment exists"
+                         },
+                  "G4":  {
+                             "state":  "BLOCKED",
+                             "reason":  "Fail-closed adapter; custom signing contract requires Tide-team deployment; no realm/policy/doken/VVK/signature; Raziel EXPLICIT custom-model GAP-072 remains network-unverified"
+                         },
+                  "G5":  {
+                             "state":  "BLOCKED",
+                             "reason":  "Real Tide path tests cannot run before G4"
+                         },
+                  "G6":  {
+                             "state":  "BLOCKED",
+                             "reason":  "Current submission and mandatory artifact verification required"
+                         }
+              },
+    "nextTasks":  [
+                      "L-003",
+                      "L-007",
+                      "L-008",
+                      "L-013",
+                      "L-014",
+                      "L-018",
+                      "L-020",
+                      "L-021"
+                  ],
+    "noGoConditions":  [
+                           "official submission permanently closed without extension",
+                           "no usable real Tide policy-gated signing/verifier path"
+                       ],
+    "finalQaAutomation":  {
+                              "scope":  "OFFLINE_LOCAL_MOCK_ONLY",
+                              "subchecksPass":  13,
+                              "subchecksFail":  7,
+                              "findings":  "docs/FINAL_QA_FINDINGS.md",
+                              "runId":  "2026-10-22T08-07-12-839Z-e934759b",
+                              "realEvidence":  "NOT_EXECUTED",
+                              "releaseApproved":  false
+                          }
 }

@@ -26,3 +26,4 @@ L-024,P1,PM,Step7,"Consolidate challenge problem, requirements, argument, soluti
 L-025,P0,Tide/QA,Step8,"Perform fail-closed MOCK to REAL_TIDE final cutover",L-013;L-018,"Real demo has no mock signer fallback; synthetic business data retained; G4/G5 evidence and secret review pass",4h,BLOCKED,docs/EXECUTION_PLAN.md
 L-026,P1,Backend,Step5,Implement 5-stage pipeline orchestrator and telemetry,L-011;L-015,tests/pipeline.test.mjs green with 5 stages,3h,DONE,src/pipeline.mjs
 L-027,P0,Tide,Step4,Wire real Tide client scaffolding with fail-closed boundary,L-004,Real Tide client parses configuration and fails closed safely,2h,DONE,src/signing/tideForsetiSigner.mjs
+QA-AUTO,P0,Lan,FinalQA,"Build and execute offline final QA runner",,"Local evidence and results generated; real/manual cases not promoted",,DONE,docs/FINAL_QA_FINDINGS.md
