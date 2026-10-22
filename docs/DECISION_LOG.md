@@ -77,3 +77,16 @@
 - **Issue C (Payment Expiration Harmonization):** Harmonized payment validity intervals to a maximum of 900 seconds (`MAX_EXPIRY_SECONDS = 900`) in `src/canonical.mjs` and `src/policy.mjs`, matching the Forseti C# contract specification (`LeashPaymentPolicy.cs`). Added explicit clock skew tolerance (30s) and bank-side expiration rejection (verified via test scenarios T12, T13).
 - **Issue D (Signing Key Trust Decoupling):** Created `src/trustAnchor.mjs` to decouple the bank's pinned verification public key from the signer instances created in the pipeline. Attackers cannot substitute or inject their own verification keys into the bank (verified via test scenario T14).
 - **Security Scenario Expansion (T1–T18):** Expanded test matrix from 8 to 18 scenarios in `tests/securityAuditRemediation.test.mjs` and `src/securityScenarios.mjs`, verifying canonical floats rejection (T15), exact quorum boundary enforcement (T16), and duplicate invoice reference detection (T18). Total unit test suite expanded to 35 passing tests.
+
+# 2026-10-22 — Real demo mapping and official Plan C correction
+
+- Added `docs/TIDECLOAK_REAL_DEMO_MAPPING.md` with code-backed gaps for real authentication/RBAC versus full Leash approvals/policy/signing/independent verification. This is documentation, not a runtime integration milestone.
+- Rechecked the official challenge: enabled Plan C permits simulated Tide protections during network overload and judges simulated/live integrations equally. Earlier blanket interpretations that missing G4/G5 automatically prohibit submission are superseded for Plan C; participant eligibility and remaining submission artifacts still require review.
+- Kept real enforcement claims and G3/G4/G5 unchanged: Plan C permission is not live cryptographic evidence. The inspected configured adapter endpoint, API authentication and receiver real-mode configuration remain unverified/unimplemented.
+- Ran preflight and 35/35 unit tests on Node 22.18.0; no Tide login, ORK signing or fresh real-path QA was executed.
+
+# 2026-10-22 — Judge-facing README refactor
+
+- Retained the five official judging criteria in an overview below 300 words. Replaced unsupported present-tense Tide enforcement claims with explicit local simulation and intended integration descriptions, grounded in the archived Plan C guidance.
+- Documented the cross-platform dashboard walkthrough, actual result codes, in-process receiver, optional mock proofs, incomplete API authentication and unverified real adapter/contract. No runtime or live integration change.
+- Verified preflight, 35 unit tests, seven fixtures, protocol consistency, 18 exported mock scenarios and 20 offline QA checks on Node 22.18.0. QA run: `evidence/private/final-qa/2026-10-22T10-12-24-714Z-ba68cf87/`; source stable. README links and overview word count checked separately. G3/G4/G5 and release approval remain unchanged.
