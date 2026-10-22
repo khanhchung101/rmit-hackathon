@@ -1,6 +1,6 @@
 {
   "project": "Leash — Tide UNLOCKED security PoC",
-  "asOf": "2026-10-22T06:45:58Z",
+  "asOf": "2026-10-22T07:05:00Z",
   "overall": "STEP0_BLOCKED_EXTERNAL",
   "mode": "MOCK_ONLY",
   "submissionStatus": "OPEN_AT_2026-10-22T06:27:36Z_UNTIL_2026-10-22T11:00:00Z_TEAM_ELIGIBILITY_UNVERIFIED",
@@ -8,8 +8,8 @@
     "tidePolicyGatedSigning": "NOT_IMPLEMENTED",
     "tideIndependentBankVerification": "NOT_IMPLEMENTED",
     "realHumanApproval": "NOT_IMPLEMENTED",
-    "mockSecurityRegression": "PASS_12_UNIT_7_FIXTURES_5_SECURITY",
-    "localContractConsistency": "PASS_9_FIELDS_FIXED_VECTOR_PROVISIONAL_ENVELOPE",
+    "mockSecurityRegression": "PASS_20_UNIT_7_FIXTURES_8_SECURITY",
+    "localContractConsistency": "PASS_9_FIELDS_FIXED_VECTOR_ENVELOPE_VALIDATED",
     "currentTideSdkAudit": "PASS_DISCOVERY_ONLY_NOT_RUNTIME"
   },
   "gates": {
@@ -19,7 +19,7 @@
     },
     "G2": {
       "state": "PASS",
-      "reason": "Local Node 20.19.6 tests: 12 unit passed, 7 fixtures passed, T1-T5 mock scenarios passed on 2026-10-22; NOT Tide evidence"
+      "reason": "Local Node 20.19.6 tests: 20 unit passed, 7 fixtures passed, T1-T8 mock scenarios passed on 2026-10-22; NOT Tide evidence"
     },
     "G3": {
       "state": "BLOCKED",
@@ -42,9 +42,11 @@
     "L-003",
     "L-007",
     "L-008",
-    "L-011",
     "L-013",
-    "L-014"
+    "L-014",
+    "L-018",
+    "L-020",
+    "L-021"
   ],
   "noGoConditions": [
     "official submission permanently closed without extension",

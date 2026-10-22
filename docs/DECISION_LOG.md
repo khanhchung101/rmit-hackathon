@@ -30,3 +30,11 @@
   outputs, test story and current limitations.
 - The write-up is a narrative layer, not a replacement for machine status,
   security claims or runtime evidence.
+
+# 2026-10-22 — Step 5 vertical slice, durable bank replay protection, and full T1–T8 suite
+
+- Added durable file-backed replay prevention to `MockBank` with atomic lockfile mutual exclusion (`src/bank.mjs`), resolving L-016 across restarts and multi-process workers.
+- Implemented execution envelope verification in `MockBank` enforcing schema, keyId pinning, and policyId pinning (`model/schema/bank-execution-v1.schema.json`), completing L-011 and L-015.
+- Implemented strict proposal schema validation in `src/parser.mjs` against `model/schema/payment-proposal.schema.json`, ensuring untrusted AI text outputs cannot smuggle authorization fields, completing L-017.
+- Extended security regression suite to cover all eight scenarios T1–T8 in `src/securityScenarios.mjs` and dedicated unit tests (`tests/durableBank.test.mjs`, `tests/proposal.test.mjs`, `tests/t6.test.mjs`), completing L-019.
+- Updated local test baseline to 20/20 passing tests and 8/8 passing security scenarios; maintained fail-closed boundary for real Tide integration (G3/G4).

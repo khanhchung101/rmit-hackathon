@@ -1,0 +1,80 @@
+{
+  "id": "STEP5-VERTICAL-SLICE-2026-10-22",
+  "dateUtc": "2026-10-22T07:05:00Z",
+  "mode": "MOCK_ONLY_NOT_TIDE",
+  "classification": "MOCK_ONLY_NOT_TIDE",
+  "summary": "Completed vertical slice pipeline: schema-hardened proposal, durable atomic replay bank store, execution envelope validation, and full T1-T8 security scenario suite.",
+  "environment": {
+    "node": "20.19.6",
+    "git": "2.43.0",
+    "docker": "29.6.2",
+    "dockerCompose": "5.3.1"
+  },
+  "completedTasks": [
+    "L-011",
+    "L-015",
+    "L-016",
+    "L-017",
+    "L-019"
+  ],
+  "results": {
+    "unitTests": "20/20 PASS (tests/*.test.mjs)",
+    "securityScenarios": "8/8 PASS (T1-T8 in src/securityScenarios.mjs)",
+    "fixtures": "7/7 PASS (scripts/verify-fixtures.mjs)",
+    "contracts": "PASS (scripts/verify-contracts.mjs)",
+    "demo": "PASS (src/demo.mjs)"
+  },
+  "evidenceDetails": [
+    {
+      "area": "L-011 & L-015: Bank Execution Envelope",
+      "implementation": "src/bank.mjs",
+      "tests": "tests/durableBank.test.mjs",
+      "properties": [
+        "Enforces envelope contract schema matching model/schema/bank-execution-v1.schema.json",
+        "Validates signature against canonical bytes",
+        "Rejects untrusted keyId with UNTRUSTED_KEY_ID (T8)",
+        "Rejects untrusted policyId with UNTRUSTED_POLICY_ID (T8)"
+      ]
+    },
+    {
+      "area": "L-016: Durable Receiver Nonce Store",
+      "implementation": "src/bank.mjs",
+      "tests": "tests/durableBank.test.mjs",
+      "properties": [
+        "Supports file-backed durable nonce persistence with atomic lockfile mutual exclusion",
+        "Prevents replay across process restarts",
+        "Prevents concurrent worker double-spending"
+      ]
+    },
+    {
+      "area": "L-017: AI Proposal Schema Validation",
+      "implementation": "src/parser.mjs, src/agent.mjs",
+      "tests": "tests/proposal.test.mjs",
+      "properties": [
+        "Strictly enforces model/schema/payment-proposal.schema.json",
+        "Rejects injected authorization / policy override / bypass properties",
+        "Rejects floats, zero/negative amounts, malformed currencies",
+        "Proves agent proposal is untrusted text extraction, not payment authority"
+      ]
+    },
+    {
+      "area": "L-019: Full T1-T8 Security Matrix",
+      "implementation": "src/securityScenarios.mjs, tests/t6.test.mjs, tests/negative.test.mjs",
+      "scenarios": [
+        "T1: Hostile prompt-injected payee proposal rejected by policy (POLICY_DENIED: UNTRUSTED_PAYEE)",
+        "T2: Direct unsigned bank bypass rejected (MISSING_SIGNATURE)",
+        "T3: High-value payment requires 2 distinct independent human approvers; self-approval and duplicate rejected",
+        "T4: Post-signing byte tampering rejected by cryptographic verification (BAD_SIGNATURE)",
+        "T5: Nonce replay rejected by receiver (REPLAY_NONCE)",
+        "T6: Caller cannot weaken policy thresholds or bypass approver quorum",
+        "T7: Wrong receiver signing key, wrong domain, and expired payloads rejected",
+        "T8: Real Tide adapter fails closed; bank rejects substituted keyId and policyId"
+      ]
+    }
+  ],
+  "limitations": [
+    "ALL executed tests and demos are LOCAL MOCK ONLY.",
+    "Real Tide signing and independent verification remain BLOCKED on external Tide realm/licensing/contract deployment (G3/G4)."
+  ],
+  "reviewer": "Codex"
+}
