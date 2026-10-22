@@ -7,3 +7,18 @@
 | 2026-10-22 | D-003 | No default LLM/OCR | Faster deterministic security regression; optional later | Agent/Data | After G4 |
 | 2026-10-22 | D-004 | Real Tide mode explicitly fails closed | Avoid misleading hackathon proof | Tide/Security | When G4 proof exists |
 | 2026-10-22 | D-005 | G1 reports possible closed submissions | Prior Deep Research reading official page | PM | Recheck organizer |
+| 2026-10-22 | D-006 | Replace stale closed-submission assumption with live open-route evidence | Official page/config/form fetched at 06:27 UTC; Vietnam deadline 11:00 UTC; participant eligibility still unknown | PM | At deadline or organizer change |
+| 2026-10-22 | D-007 | Freeze deterministic proposer and synthetic USD fixtures for MVP | Seven fixture cases pass; avoids credentials, PII and unverifiable real-model claims | Security + AI/Data | Only after G4 |
+| 2026-10-22 | D-008 | Treat real signing as externally blocked, not locally implementable by assumption | Raziel MCP 1.9.33 requires Tide-team custom-contract deployment plus human realm enrollment; EXPLICIT custom-model GAP-072 remains | Tide/Security | After Tide team/realm access |
+
+# 2026-10-22 — Deadline-aware completion plan and provisional transport schema
+
+- Added `docs/EXECUTION_PLAN.md` as the operational mapping of `PLAN.md`; it
+  does not weaken or replace G1–G6.
+- Froze machine-readable local payment and bank-envelope schemas and added a
+  reproducible consistency check against the canonical vector and Forseti
+  candidate.
+- Kept L-011 IN_PROGRESS because the real Tide signed-byte envelope, key ID and
+  policy ID cannot be finalized before L-008/G4 live evidence.
+- Release decision remains fail-closed: no challenge-complete claim if G4/G5
+  miss the submission window.

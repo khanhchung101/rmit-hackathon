@@ -11,6 +11,8 @@ test('canonical rejects unexpected props, floats, wrong domain, expired',()=>{
  assert.throws(()=>canonicalize({...p(),amountMinor:5.2}),/INVALID_PAYLOAD/);
  assert.throws(()=>canonicalize({...p(),domain:'other-app'}),/INVALID_PAYLOAD/);
  assert.throws(()=>canonicalize({...p(),expiresAt:'2020-01-01T00:00:00.000Z'}),/EXPIRED/);
+ assert.throws(()=>canonicalize({...p(),invoiceId:'I-\"escaped'}),/INVALID_PAYLOAD/);
+ assert.throws(()=>canonicalize({...p(),payeeAccount:'ACME\\DEMO'}),/INVALID_PAYLOAD/);
 });
 test('every payment needs independent approval even when small',()=>{
  assert.equal(evaluateMockPolicy(p(),[]).ok,false);

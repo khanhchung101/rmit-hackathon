@@ -1,6 +1,6 @@
 # Tide capability audit (research-backed vs implementation-unverified)
 
-Source of architecture: https://docs.tide.org/Core-Concepts/forseti-engine (reviewed 2026-10-22).
+Sources: official Forseti documentation plus Raziel MCP 1.9.33 and Tide Foundation KeyleSSH source, audited 2026-10-22. Exact package versions: `@tidecloak/js@0.14.41`, `heimdall-tide@0.14.41`, `asgard-tide@0.14.20`.
 
 | Capability | Docs indicate | Must prove inside Leash |
 |---|---|---|
@@ -16,5 +16,15 @@ Source of architecture: https://docs.tide.org/Core-Concepts/forseti-engine (revi
 | Raziel MCP | Docs describe agent-oriented official guidance | Test @tideorg/mcp package reachability and reference example |
 
 **UNVERIFIED:** production SDK versions/build pipeline, protocol's exact signed bytes, canonicalized challenge/executor/approver interactions, correct `publicKey` getter and scheme, policy-key scoping, QEA enforcement on contract updates, developer access to a test realm. G4 requires executable proof, not documentation quotes.
+
+## Live audit findings
+
+- Raziel MCP selected **policy-governed-signing**. The built-in `RelationshipAttestation:1` contract does not authorize signing, so Leash requires a custom contract.
+- Custom contract deployment is not self-service; Raziel directs teams to Tide for experimental test-network review/deployment. Local compilation is necessary but cannot satisfy G4.
+- `createTideRequest` and `executeSignRequest` live on the browser-initialized TideCloak instance (`IAMService._tc`); no supported headless/service-account signing path exists.
+- `ValidateApprovers` runs only for `ApprovalType.EXPLICIT`; `ValidateExecutor` runs only for `ExecutionType.PRIVATE`. A Leash policy must deliberately choose a request model that invokes both required controls.
+- Raziel GAP-072 reports that the double-wrapped EXPLICIT custom-model identity needed for an approval card is source-derived but not yet network-verified. This is a real feasibility risk, not an API to assume.
+- The independently pinned verification key is the realm Ed25519 VVK from exported adapter `jwk.keys` (or the restricted Tide JWK admin endpoint), not the OIDC RSA JWKS.
+- QEA is separate from payment approval. With one admin the threshold is one; with two admins the documented formula still requires one. The `master` realm is never governed by QEA.
 
 Official architecture excerpt pattern: `new BaseTideRequest("BasicCustom", "BasicCustom<1>", "Policy:1", draft, new TideMemory())` and `tc.createTideRequest` / `tc.executeSignRequest`; do not paste into production until SDK runtime verified.

@@ -14,6 +14,10 @@
 {"amountMinor":55000,"currency":"USD","domain":"leash.payment.v1","expiresAt":"2030-01-01T00:00:00.000Z","invoiceId":"INV-LOW-001","nonce":"nonce-low-001","payeeAccount":"ACME-DEMO-001","payeeId":"acme-labs","version":"leash.pay.v1"}
 ```
 
+The exact UTF-8 bytes for this vector hash to SHA-256 `648693c9f2a3e4f0684ead1e7af690763f8dfb80224636e2f68e46f917b5656f`. The executable assertion is `tests/protocol.test.mjs`; the redacted artifact is `evidence/mock-signature-protocol-vector.json`.
+
+Identifiers (`invoiceId`, `nonce`, `payeeAccount`, `payeeId`) are restricted to ASCII letters, digits, `.`, `_` and `-`. This deliberately excludes JSON escaping so a future Forseti parser cannot accept a different textual representation than the bank verifies.
+
 **Verification:** Pin the correct signing public key / context, verify scheme/signature with exact bytes, reject wrong domain/version/policy identity, expiry, already-seen nonce, and mismatched payee. **Receiver cannot accept backend-supplied `publicKey`**. Replay protection needs durable unique index for deployment.
 
 **Required Step 0 evidence:** hex/sha256 signed bytes, Tide SDK request bytes, Tide returned signature, actual key getter/format, verifier command/exit, contract hash and approval trace.

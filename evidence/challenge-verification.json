@@ -1,0 +1,61 @@
+{
+  "status": "PARTIAL_TEAM_ELIGIBILITY_UNVERIFIED",
+  "officialUrl": "https://tide.org/unlocked/",
+  "checkedAtUtc": "2026-10-22T06:27:36Z",
+  "retrieval": {
+    "method": "curl over HTTPS after interactive browser and web-reader access were unavailable",
+    "httpStatus": 200,
+    "pageSha256": "2acae77914d79ad539f455dbd798244eaceb9a847c0501fdaf951bb144ad6047",
+    "configUrl": "https://tide.org/unlocked/config.js",
+    "configSha256": "2a28cadcc5365fecdaf33db846c28347f9a374a76e8cb047c6031c13d3f7f121",
+    "browserScreenshotOrArchive": null,
+    "limitation": "No browser surface was available, so no rendered screenshot was captured."
+  },
+  "submissionsStatus": "OPEN_AT_CHECK_TIME",
+  "deadline": {
+    "vietnam": "2026-10-22T18:00:00+07:00",
+    "melbourne": "2026-10-23T10:00:00+11:00",
+    "malaysia": "2026-10-22T18:00:00+08:00",
+    "utc": "2026-10-22T11:00:00Z"
+  },
+  "submissionForm": {
+    "url": "https://forms.gle/HRHYjnqB86j1LFS97",
+    "reachableAtCheckTime": true,
+    "formSha256": "0c4c1ace3b2729d39d78777e0b9e683dc532c5399f722938828457dcc5f2d313",
+    "title": "RMIT Hackathon 2026 - Challenge 2",
+    "requiredFieldsObserved": [
+      "group name formatted <university>_<campus>_<team>_C<challenge>, campus SGS/HNI/MEL/MYS",
+      "email addresses; examples use RMIT student addresses",
+      "public GitHub repository containing source, README and video"
+    ]
+  },
+  "teamEligibility": {
+    "officialEvidence": "The challenge is identified as Challenge 2 of the RMIT hackathon; the live form requires an RMIT-formatted team name and RMIT email addresses.",
+    "currentProjectEvidence": "No participant identity or RMIT eligibility evidence is stored in this repository.",
+    "state": "UNVERIFIED"
+  },
+  "requirements": {
+    "workingPrototype": "TideCloak-integrated working prototype",
+    "publicRepository": true,
+    "readmeOverviewMaxWords": 300,
+    "readmePromptCount": 5,
+    "video": "two-minute .mp4 under 100 MB stored in the public repository",
+    "submissionMechanism": "Submit the public repository link through the published Google Form"
+  },
+  "judging": [
+    {"weight": 25, "title": "Vision & originality"},
+    {"weight": 20, "title": "Trust constraint insight"},
+    {"weight": 20, "title": "Value & impact"},
+    {"weight": 20, "title": "Why TideCloak matters"},
+    {"weight": 15, "title": "Prototype & storytelling"}
+  ],
+  "officialJudgingPromptsExact": [
+    "What new product, service, experience or way of working are you proposing? What makes your idea distinctive?",
+    "What is difficult, risky or impossible today because trust, privacy or security gets in the way? Explain what becomes possible when that constraint is removed.",
+    "Who would benefit, and how would their lives or work improve? Give a concrete example of why this matters.",
+    "How does your application use TideCloak, and how does that integration help enable your idea? Connect the technology to the possibility you are demonstrating.",
+    "What does your prototype demonstrate today? Describe the key interaction judges should look for."
+  ],
+  "g1Decision": "PARTIAL: route and requirements verified; participant eligibility remains unverified",
+  "verifiedBy": "Codex automated public-source audit; human eligibility review pending"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "L-011-LOCAL-CONTRACT-FREEZE",
+  "dateUtc": "2026-10-22T06:45:58Z",
+  "mode": "MOCK_ONLY_NOT_TIDE",
+  "command": "npm run validate:contracts",
+  "commandExitCode": 0,
+  "commandOutputSha256": "1eda5cad562bbab9654616961f91b38915b9eed4e58f5421fb61e1ab77ee9186",
+  "observedResult": [
+    "payment schema contains the nine exact signed fields",
+    "canonical vector SHA-256 is 648693c9f2a3e4f0684ead1e7af690763f8dfb80224636e2f68e46f917b5656f",
+    "bank envelope separates exact payment from explicit authorization metadata",
+    "Forseti candidate contains matching protocol literals"
+  ],
+  "artifacts": [
+    {
+      "path": "model/schema/payment-instruction-v1.schema.json",
+      "sha256": "04b1e47099c34097b105531e796a5ee9c87d0093e4a63f3835eaf476a38f2baa"
+    },
+    {
+      "path": "model/schema/bank-execution-v1.schema.json",
+      "sha256": "5d61dfe5001d48039914adb203760f2f2f244740b279400f7feccaf3d626b4f0"
+    },
+    {
+      "path": "scripts/verify-contracts.mjs",
+      "sha256": "ed9166b369b77b27981c82ae3d46bfd814454a16849427aec13066ae8eed0f0b"
+    },
+    {
+      "path": "docs/EXECUTION_PLAN.md",
+      "sha256": "57a1c9de96883e9a4357e1f7d9a2f4d0bc2cb597e989a57ad67021b00979312f"
+    }
+  ],
+  "status": "PARTIAL",
+  "reviewer": "Codex automated consistency check",
+  "limitations": [
+    "This proves only local schema and source consistency.",
+    "The C# candidate was not compiled or deployed.",
+    "The real Tide signed-byte envelope, key ID, policy ID and signature format remain unverified under L-008/G4."
+  ]
+}

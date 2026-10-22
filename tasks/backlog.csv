@@ -1,16 +1,16 @@
 id,priority,owner,step,task,dependencies,definition_of_done,estimate,status,evidence
-L-001,P0,PM,Step0,Verify official submissions open/closed; exact deadline/route,,"Official page snapshot, organizer clarification, G1 decision",2h,TODO,
-L-002,P0,PM,Step0,"Copy five README prompts, video/repo/eligibility rules",L-001,rules.md with citations and exact wording,1h,TODO,
-L-003,P0,Tide,Step0,"Validate hardware/tools, Docker, TideCloak realm and doken",,version and realm evidence; G3,3h,TODO,
-L-004,P0,Tide,Step0,Discover current signing SDK API and policy-governed-signing example,L-003,"exact references, SDK versions",3h,TODO,
-L-005,P0,Security,Step0,"Lock synthetic fixture trust registry, fields, thresholds and approvals",,"DECISIONS.md signed, fixtures pass",2h,TODO,
-L-006,P0,AI/Data,Step0,"Choose LLM/local/no model, evaluator, privacy/cost and fallback",,LLM_MODEL_DECISIONS signed,1h,TODO,
-L-007,P0,Tide,Step0,Compile/deploy C# ValidateData & approval policy to Tide,L-004;L-005,"contract hash, realm logs and denied/passed signatures",6h,TODO,
-L-008,P0,Backend,Step0,"Find actual signing public key, exact signed bytes and external verifier",L-007,G4 positive verify plus mutated deny evidence,4h,TODO,
-L-009,P0,PM,Step1,Research customer niche and direct competitors Microsoft/Visa/Fireblocks/Circle,L-001,gap matrix and honest novelty claim,3h,TODO,
-L-010,P1,Security,Step2,"Finalize attack model, invariants and residual risks",L-005,threat doc accepted,2h,TODO,
-L-011,P1,Backend,Step3,Freeze canonical payload and bank API schema,L-005;L-008,cross-implementation test vectors,3h,TODO,
-L-012,P1,QA,Step3,Run local mock regression baseline,L-005,G2 npm test + security green,1h,TODO,
+L-001,P0,PM,Step0,Verify official submissions open/closed; exact deadline/route,,"Official page snapshot, organizer clarification, G1 decision",2h,DONE,evidence/challenge-verification.json
+L-002,P0,PM,Step0,"Copy five README prompts, video/repo/eligibility rules",L-001,rules.md with citations and exact wording,1h,DONE,docs/README_5_PROMPTS.md
+L-003,P0,Tide,Step0,"Validate hardware/tools, Docker, TideCloak realm and doken",,version and realm evidence; G3,3h,BLOCKED,evidence/runtime/tide-sdk-audit-2026-10-22.json
+L-004,P0,Tide,Step0,Discover current signing SDK API and policy-governed-signing example,L-003,"exact references, SDK versions",3h,DONE,evidence/runtime/tide-sdk-audit-2026-10-22.json
+L-005,P0,Security,Step0,"Lock synthetic fixture trust registry, fields, thresholds and approvals",,"DECISIONS.md signed, fixtures pass",2h,DONE,evidence/runtime/step0-baseline-2026-10-22.json
+L-006,P0,AI/Data,Step0,"Choose LLM/local/no model, evaluator, privacy/cost and fallback",,LLM_MODEL_DECISIONS signed,1h,DONE,step0/LLM_MODEL_DECISIONS.md
+L-007,P0,Tide,Step0,Compile/deploy C# ValidateData & approval policy to Tide,L-004;L-005,"contract hash, realm logs and denied/passed signatures",6h,BLOCKED,evidence/runtime/tide-sdk-audit-2026-10-22.json
+L-008,P0,Backend,Step0,"Find actual signing public key, exact signed bytes and external verifier",L-007,G4 positive verify plus mutated deny evidence,4h,BLOCKED,evidence/runtime/tide-sdk-audit-2026-10-22.json
+L-009,P0,PM,Step1,Research customer niche and direct competitors Microsoft/Visa/Fireblocks/Circle,L-001,gap matrix and honest novelty claim,3h,DONE,research/prior-art-gap.md
+L-010,P1,Security,Step2,"Finalize attack model, invariants and residual risks",L-005,threat doc accepted,2h,DONE,docs/THREAT_MODEL.md
+L-011,P1,Backend,Step3,Freeze canonical payload and bank API schema,L-005;L-008,cross-implementation test vectors,3h,IN_PROGRESS,"evidence/runtime/l011-contract-freeze-2026-10-22.json (local contract frozen; real Tide binding waits L-008)"
+L-012,P1,QA,Step3,Run local mock regression baseline,L-005,G2 npm test + security green,1h,DONE,evidence/runtime/step0-baseline-2026-10-22.json
 L-013,P0,Tide,Step4,Replace fail-closed Tide adapter with real policy-gated signer,L-007;L-008,external real signing positive/negative,7h,TODO,
 L-014,P0,Security,Step4,Verify payment approver proofs and governance separately,L-013,T3 and QEA evidence,4h,TODO,
 L-015,P1,Backend,Step5,Wire signed instruction to independent verifier with pinned key,L-013;L-011,bank valid/invalid independent real trace,4h,TODO,
@@ -21,3 +21,4 @@ L-019,P1,Security,Step6,Execute T6–T8 and conduct adversarial code review,L-01
 L-020,P1,PM,Step7,"Create 2-min storyboard, record real-or-clearly-labeled-mock video",L-018;L-002,video matches evidence and current official format,4h,TODO,
 L-021,P1,QA,Step7,"Prepare repo README with exact official prompts, clean-run guide",L-020,reproduction reviewer approves,3h,TODO,
 L-022,P0,PM,Step8,Run secrets/claims audit; pack evidence; check submission portal and submit,L-021;L-019,G6 receipt or explicit NO-GO,3h,TODO,
+L-023,P0,PM,All,"Maintain end-to-end execution runbook, owners, gates and deadline branch",L-001,Plan maps Step 0-8 to evidence and release decision,1h,DONE,docs/EXECUTION_PLAN.md

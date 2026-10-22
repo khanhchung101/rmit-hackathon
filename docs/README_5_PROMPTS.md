@@ -1,12 +1,14 @@
-# Hackathon README instructions — verified template must be inserted in Step 0
+# Hackathon README instructions — live official wording verified 2026-10-22
 
-**Do not fabricate five official prompts.** Prior research says official page expects a one-sentence description and an overview answering five prompts in <=300 words, with setup instructions in separate section. JavaScript-rendered exact prompt wording was not extracted. Current page: https://tide.org/unlocked/.
+The official page requires a one-sentence description and a project overview answering these five prompts in **300 words or fewer**, with setup instructions in a separate section. Source and content hashes are recorded in `evidence/challenge-verification.json`.
 
-1. Open official page in browser.
-2. Copy exact five prompts, judged headings and word limit into `evidence/challenge-verification-template.json`.
-3. For each, write a short evidence-backed response: value, trust bottleneck, why Tide, prototype behavior, limitations.
-4. Include README first in public repo, concise overview and separate quickstart.
-5. Compare final answer word count to verified official rule.
+1. **Vision & originality (25%)** — What new product, service, experience or way of working are you proposing? What makes your idea distinctive?
+2. **Trust constraint insight (20%)** — What is difficult, risky or impossible today because trust, privacy or security gets in the way? Explain what becomes possible when that constraint is removed.
+3. **Value & impact (20%)** — Who would benefit, and how would their lives or work improve? Give a concrete example of why this matters.
+4. **Why TideCloak matters (20%)** — How does your application use TideCloak, and how does that integration help enable your idea? Connect the technology to the possibility you are demonstrating.
+5. **Prototype & storytelling (15%)** — What does your prototype demonstrate today? Describe the key interaction judges should look for.
+
+Do not publish final answers that imply real Tide enforcement while G4 is blocked.
 
 **Draft (NOT official answers):**
 

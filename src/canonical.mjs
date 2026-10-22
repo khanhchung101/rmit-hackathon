@@ -5,6 +5,7 @@ export const SIGNED_KEYS = Object.freeze([
 export const DOMAIN = 'leash.payment.v1';
 export const VERSION = 'leash.pay.v1';
 const ASCII = /^[\x20-\x7E]+$/;
+const SAFE_TOKEN = /^[A-Za-z0-9._-]+$/;
 
 export function validatePayment(p, {at=new Date()} = {}) {
   if (!p || typeof p !== 'object' || Array.isArray(p)) throw Error('INVALID_PAYLOAD:object');
@@ -16,6 +17,9 @@ export function validatePayment(p, {at=new Date()} = {}) {
   for (const key of SIGNED_KEYS.filter(x=>x!=='amountMinor')) {
     if (typeof p[key] !== 'string' || !ASCII.test(p[key]) || p[key].length > 128)
       throw Error('INVALID_PAYLOAD:' + key);
+  }
+  for (const key of ['invoiceId','nonce','payeeAccount','payeeId']) {
+    if (!SAFE_TOKEN.test(p[key])) throw Error('INVALID_PAYLOAD:' + key);
   }
   if (!/^[A-Z]{3}$/.test(p.currency)) throw Error('INVALID_PAYLOAD:currency');
   if (!/^[A-Za-z0-9._-]{5,128}$/.test(p.nonce)) throw Error('INVALID_PAYLOAD:nonce');

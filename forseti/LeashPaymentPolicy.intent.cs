@@ -1,4 +1,5 @@
-// INTENT ONLY. NOT a compilable/deployed Tide C# contract.
+// HISTORICAL INTENT ONLY. NOT a compilable/deployed Tide C# contract.
+// The current compile-check candidate is LeashPaymentPolicy.cs; it is also NOT deployed.
 // Adapt using the CURRENT Tide Forseti IAccessPolicy SDK and verify with real API docs.
 // No claim of Tide enforcement until Step 0 G4 is proven.
 //
