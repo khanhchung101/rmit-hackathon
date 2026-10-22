@@ -38,3 +38,10 @@
 - Implemented strict proposal schema validation in `src/parser.mjs` against `model/schema/payment-proposal.schema.json`, ensuring untrusted AI text outputs cannot smuggle authorization fields, completing L-017.
 - Extended security regression suite to cover all eight scenarios T1–T8 in `src/securityScenarios.mjs` and dedicated unit tests (`tests/durableBank.test.mjs`, `tests/proposal.test.mjs`, `tests/t6.test.mjs`), completing L-019.
 - Updated local test baseline to 20/20 passing tests and 8/8 passing security scenarios; maintained fail-closed boundary for real Tide integration (G3/G4).
+
+## 2026-10-22 — D-LAN-01: Strict receiver contract
+
+- Chốt local target boundary tại `docs/RECEIVER_CONTRACT.md`: envelope-only strict runtime; trusted mode/key/policy/ledger config ngoài request; legacy helper chỉ explicit test/dev; normalized fail-closed output.
+- Thêm `config/receiver.mock.example.json` chỉ chứa fake IDs và paths, không key/secret; config loader/strict implementation chưa có.
+- Mode/policy ID là metadata chưa được signature cover; real key/policy/byte binding chờ Khánh review. Không coi đã có team sign-off hoặc real Tide proof.
+- LAN-01 documentation complete, cross-owner review pending; LAN-02/03 là bước implementation tiếp theo. G1–G6 không đổi.

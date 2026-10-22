@@ -1,5 +1,7 @@
 # Leash local canonical message v1 (mock protocol; real binding needs G4)
 
+Strict receiver input, trusted configuration, mode handling and error contract are specified in [RECEIVER_CONTRACT.md](RECEIVER_CONTRACT.md). This is a target contract for LAN-02/03, not a claim that the current MockBank enforces it. Payment fields and the fixed vector below remain unchanged.
+
 ## Exactly signed fields
 
 `amountMinor` (positive integer cents), `currency`, `domain`, `expiresAt`, `invoiceId`, `nonce`, `payeeAccount`, `payeeId`, `version`. No optional/extraneous properties. `domain='leash.payment.v1'`, `version='leash.pay.v1'`.

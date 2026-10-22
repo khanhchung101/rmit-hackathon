@@ -1,0 +1,7 @@
+{
+  "expectedMode": "MOCK_ONLY",
+  "pinnedPublicKeyPath": "./local/mock-signing-public.pem",
+  "pinnedKeyId": "mock-key-v1",
+  "pinnedPolicyId": "leash.payment.v1",
+  "durablePath": "./local/mock-nonces.jsonl"
+}

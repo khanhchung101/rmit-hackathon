@@ -15,3 +15,5 @@
 **Next externally owned actions:** establish participant eligibility; provide Tide licence email and explicit Terms decision; select local versus hosted realm; complete human account linking; ask Tide to review/deploy the custom signing contract; then capture real allowed/denied signing traces and independently verify the exact bytes with the realm VVK.
 
 **Important:** Mock green cannot be used as evidence that Tide enforced policy. This kit includes no real-world financial data or live payment functionality.
+
+**LAN-01 update — 22/10/2026:** receiver contract và mock config example đã soạn; local interface sẵn sàng cho LAN-02/03, Khánh review Tide binding vẫn pending. Chưa sửa verifier/CLI/ledger; chưa giải quyết các gap trong `docs/LAN_TASK_CHECKLIST.md`. Các claim Step 5 ở trên không thay thế strict-runtime hoặc real-process evidence. G3/G4/G5 giữ nguyên BLOCKED.

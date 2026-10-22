@@ -23,3 +23,4 @@ L-021,P1,QA,Step7,"Prepare repo README with exact official prompts, clean-run gu
 L-022,P0,PM,Step8,Run secrets/claims audit; pack evidence; check submission portal and submit,L-021;L-019,G6 receipt or explicit NO-GO,3h,TODO,
 L-023,P0,PM,All,"Maintain end-to-end execution runbook, owners, gates and deadline branch",L-001,Plan maps Step 0-8 to evidence and release decision,1h,DONE,docs/EXECUTION_PLAN.md
 L-024,P1,PM,Step7,"Consolidate challenge problem, requirements, argument, solution and demo narrative",L-002;L-009;L-010,Single evidence-aligned presentation write-up,2h,DONE,docs/CHALLENGE_WRITEUP.md
+LAN-01,P0,Lan,ReceiverContract,"Define strict receiver envelope and trusted config",,"Contract and mock config documented; Khanh binding review pending",,DOC_DONE_REVIEW_PENDING,docs/RECEIVER_CONTRACT.md
